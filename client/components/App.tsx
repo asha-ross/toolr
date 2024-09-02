@@ -1,15 +1,10 @@
-import { useFruits } from '../hooks/useFruits.ts'
+//This page wraps the whole project. Houses the "home page"
 
 function App() {
-  const { data } = useFruits()
-
   return (
     <>
       <div className="app">
-        <h1 className="text-3xl font-bold underline">
-          Fullstack Boilerplate - with Fruits!
-        </h1>
-        <ul>{data && data.map((fruit) => <li key={fruit}>{fruit}</li>)}</ul>
+        <h1 className="text-3xl font-bold underline">TOOLR</h1>
       </div>
     </>
   )
