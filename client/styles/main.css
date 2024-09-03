@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .header {
@@ -13,7 +14,8 @@
 
 .search-form {
   display: flex;
-  margin-bottom: 1rem;
+  width: 80%;
+  margin-bottom: 5px;
 }
 
 .search-input {
