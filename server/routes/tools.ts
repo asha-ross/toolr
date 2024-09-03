@@ -19,9 +19,9 @@ const router = Router()
 //Returns all tools, potentially with pagination?
 router.get('/', async (req, res) => {
   try {
-    const fruits = await db.getAllFruits()
+    const tools = await db.getAllTools()
 
-    res.json({ fruits: fruits.map((fruit) => fruit.name) })
+    res.json({ tools: tools.map((tool) => tool.name) })
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: 'Something went wrong' })
@@ -32,8 +32,8 @@ router.get('/', async (req, res) => {
 //Returns a specific tool by id
 router.get('/:id', async (req, res, next) => {
   try {
-    const fruit = await db.getFruitById(req.params.id)
-    res.json(fruit)
+    const tool = await db.getToolById(req.params.id)
+    res.json(tool)
   } catch (err) {
     next(err)
   }
@@ -49,7 +49,7 @@ router.post('/', checkJwt, async (req: JwtRequest, res, next) => {
 
   try {
     const { owner, name } = req.body
-    const id = await db.addFruit({ owner, name })
+    const id = await db.addTool({ owner, name })
     res
       .setHeader('Location', `${req.baseUrl}/${id}`)
       .sendStatus(StatusCodes.CREATED)
@@ -60,11 +60,15 @@ router.post('/', checkJwt, async (req: JwtRequest, res, next) => {
 
 //TODO: PUT /api/v1/tools/:id
 //Update an existing tool
+router.put('/:id', checkJwt, async (req: JwtRequest, res, next) => {})
 
 //TODO: DELETE /api/v1/tools/:id
 //Delete a tool
 
+router.delete('/:id', checkJwt, async (req: JwtRequest, res, next) => {})
+
 //TODO: GET /api/v1/tools/search
 //Search for tools based on various criteria
+router.get('/search', async (req, res) => {})
 
 export default router
