@@ -17,7 +17,7 @@ import { Tools } from '../../../models/tools.ts'
 // Get all tools from the database
 export async function getAllToolsDB() {
   try {
-    const tools = await db('tool').select()
+    const tools = await db('tools').select('')
     return tools as Tools[]
   } catch (error) {
     console.error('Error fetching all tools:', error)
