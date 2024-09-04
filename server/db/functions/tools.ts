@@ -14,22 +14,129 @@
 import db from '../connection.ts'
 import { Tools } from '../../../models/tools.ts'
 
+// Get all tools from the database
 export async function getAllToolsDB() {
-  const tool = await db('tool').select()
-  return tool as Tools[]
+  try {
+    const tools = await db('tools').select('')
+    return tools as Tools[]
+  } catch (error) {
+    console.error('Error fetching all tools:', error)
+    throw new Error('Failed to fetch all tools')
+  }
 }
 
+// Get a tool by its ID
 export async function getToolByIdDB(id: number | string) {
-  const tool = await db('tool').select().first().where({ id })
-  return tool as Tools
+  try {
+    const tool = await db('tool').where({ id }).first()
+    if (!tool) {
+      throw new Error('Tool not found')
+    }
+    return tool as Tools
+  } catch (error) {
+    console.error(`Error fetching tool with ID ${id}:`, error)
+    throw new Error('Failed to fetch tool by ID')
+  }
 }
 
+// Get tools by category
 export async function getToolsByCategoryDB(category: string) {
-  const tool = await db('tool').select().where({ category })
-  return tool as Tools[]
+  try {
+    const tools = await db('tool').where({ category })
+    return tools as Tools[]
+  } catch (error) {
+    console.error(`Error fetching tools by category ${category}:`, error)
+    throw new Error('Failed to fetch tools by category')
+  }
 }
 
-export async function addTool(data: ToolData) {
-  const [id] = await db('tool').insert(data)
-  return id
+// Add a new tool to the database
+export async function addTool(data: Partial<Tools>) {
+  try {
+    const [id] = await db('tool').insert(data).returning('id')
+    return id
+  } catch (error) {
+    console.error('Error adding new tool:', error)
+    throw new Error('Failed to add tool')
+  }
+}
+
+// Update a tool by its ID
+export async function updateTool(id: number, data: Partial<Tools>) {
+  try {
+    const updatedRows = await db('tool')
+      .where({ id })
+      .update(data)
+      .returning('*') 
+
+    if (updatedRows.length === 0) {
+      throw new Error('Tool not found')
+    }
+
+    return updatedRows[0] as Tools 
+    console.error(`Error updating tool with ID ${id}:`, Error)
+    throw new Error('Failed to update tool')
+  } catch (error) {
+    console.error(`Error updating tool with ID ${id}:`, error)
+    throw new Error('Failed to update tool')
+  }
+}
+
+// Delete a tool by its ID
+export async function deleteTool(id: number) {
+  try {
+    const deletedRows = await db('tool')
+      .where({ id })
+      .del()
+
+    if (deletedRows === 0) {
+      throw new Error('Tool not found')
+    }
+
+    return deletedRows // Optionally return the number of deleted rows
+  } catch (error) {
+    console.error(`Error deleting tool with ID ${id}:`, error)
+    throw new Error('Failed to delete tool')
+  }
+}
+
+// Search for tools based on multiple criteria (name, rating, price, etc.)
+// Includes sorting by specified parameter and order ('asc' or 'desc')
+export async function searchTools(criteria: {
+  name?: string,
+  rating?: number,
+  price?: number,
+  sortBy?: 'name' | 'price' | 'rating',
+  sortOrder?: 'asc' | 'desc'
+}) {
+  try {
+    let query = db('tool').select()
+
+    // Filter by name
+    if (criteria.name) {
+      query = query.where('name', 'like', `%${criteria.name}%`)
+    }
+
+    // Filter by rating
+    if (criteria.rating) {
+      query = query.where('rating', '>=', criteria.rating)
+    }
+
+    // Filter by price
+    if (criteria.price) {
+      query = query.where('price', '<=', criteria.price)
+    }
+
+    // Apply sorting
+    if (criteria.sortBy) {
+      const sortOrder = criteria.sortOrder || 'asc' 
+      query = query.orderBy(criteria.sortBy, sortOrder)
+    }
+
+    const tools = await query
+    return tools as Tools[]
+  } catch (error) {
+    console.error('Error searching for tools:', error)
+    throw new Error('Failed to search tools')
+  }
 }
