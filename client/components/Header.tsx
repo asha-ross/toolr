@@ -2,16 +2,16 @@
 //Includes the "Categories" information
 
 import { Link } from 'react-router-dom'
-// import logo from '../assets/toolr-logo.png' //Need to create this logo
+import logo from '../assets/toolr_logo.png'
 
 function Header() {
   return (
     <header className="header">
       TOOLR
       <div className="logo">
-        {/* <Link to="/">
+        <Link to="/">
           <img src={logo} alt="TOOLR logo" />
-        </Link> */}
+        </Link>
       </div>
       <nav>
         <ul>

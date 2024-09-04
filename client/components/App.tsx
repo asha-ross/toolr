@@ -6,8 +6,12 @@ import '../styles/main.css'
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Outlet />
+      <header>
+        <Header />
+      </header>
+      <main>
+        <Outlet />
+      </main>
     </div>
   )
 }
