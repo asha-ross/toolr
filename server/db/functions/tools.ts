@@ -11,20 +11,25 @@
 // This could allow for more complex queries, like searching for tools
 // that match multiple categories or have multiple specific attributes
 
-import db from './connection.ts'
-import { Fruit, FruitData } from '../../models/tools.ts'
+import db from '../connection.ts'
+import { Tools } from '../../../models/tools.ts'
 
-export async function getAllFruits() {
-  const fruit = await db('fruit').select()
-  return fruit as Fruit[]
+export async function getAllToolsDB() {
+  const tool = await db('tool').select()
+  return tool as Tools[]
 }
 
-export async function getFruitById(id: number | string) {
-  const fruit = await db('fruit').select().first().where({ id })
-  return fruit as Fruit
+export async function getToolByIdDB(id: number | string) {
+  const tool = await db('tool').select().first().where({ id })
+  return tool as Tools
 }
 
-export async function addFruit(data: FruitData) {
-  const [id] = await db('fruit').insert(data)
+export async function getToolsByCategoryDB(category: string) {
+  const tool = await db('tool').select().where({ category })
+  return tool as Tools[]
+}
+
+export async function addTool(data: ToolData) {
+  const [id] = await db('tool').insert(data)
   return id
 }

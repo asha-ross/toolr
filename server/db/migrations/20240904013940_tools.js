@@ -11,6 +11,7 @@ export async function up(knex) {
     table.string('image')
     table.boolean('availability').defaultTo(true)
     table.timestamp('created_at').defaultTo(knex.fn.now())
+    table.string('category')
   })
 }
 
