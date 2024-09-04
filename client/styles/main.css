@@ -1,12 +1,15 @@
+html {
+  background-image: url('/images/Tooler\ Background.png');
+  background-size: cover;
+}
+
+
 .home {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   height: 100vh;
-  /* background-image: url('');
-  background-size: cover;
-  background-position: center; */
 }
 
 .header {
