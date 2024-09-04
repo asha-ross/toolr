@@ -14,12 +14,6 @@ export async function up(knex) {
     table.string('status').notNullable()
     table.timestamp('created_at').defaultTo(knex.fn.now())
   })
-
-  await knex.schema.table('transactions', (table) => {
-    table.foreign('tool_id').references('id').inTable('tools')
-    table.foreign('borrower_id').references('id').inTable('users')
-    table.foreign('lender_id').references('id').inTable('users')
-  })
 }
 
 /**

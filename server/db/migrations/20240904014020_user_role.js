@@ -1,5 +1,3 @@
-import knex from 'knex'
-
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -11,11 +9,6 @@ export async function up(knex) {
     table.primary(['role_id', 'user_id'])
   })
 }
-
-await knex.schema.table('user_role', (table) => {
-  table.foreign('role_id').references('id').inTable('roles')
-  table.foreign('user_id').references('id').inTable('users')
-})
 
 /**
  * @param { import("knex").Knex } knex
