@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
     res.json({ tools })
   } catch (error) {
     console.error('Error fetching tools:', error)
-    res.status(500).json({ message: 'somthing went wrong on the server'})
+    res.status(500).json({ message: 'somthing went wrong on the server' })
   }
 })
 
@@ -34,7 +34,8 @@ router.get('/:id', async (req, res, next) => {
     if (tool) {
       res.json(tool)
     } else {
-      res.status(StatusCodes.NOT_FOUND).json({ message: 'Tool not found' })}
+      res.status(StatusCodes.NOT_FOUND).json({ message: 'Tool not found' })
+    }
   } catch (err) {
     next(err)
   }
@@ -50,7 +51,13 @@ router.post('/', checkJwt, async (req: JwtRequest, res, next) => {
 
   try {
     const { tool_owner, tool_name, description, availability, image } = req.body
-    const id = await db.addTool({ tool_owner, tool_name, description, availability, image })
+    const id = await db.addTool({
+      tool_owner,
+      tool_name,
+      description,
+      availability,
+      image,
+    })
     res
       .setHeader('Location', `${req.baseUrl}/${id}`)
       .sendStatus(StatusCodes.CREATED)
@@ -64,15 +71,17 @@ router.post('/', checkJwt, async (req: JwtRequest, res, next) => {
 router.put('/:id', checkJwt, async (req: JwtRequest, res) => {
   const { id } = req.params
   try {
-      const updatedTool = await db.updateTool(Number(id), req.body)
-      if (updatedTool) {
-          res.status(StatusCodes.OK).json(updatedTool)
-      } else {
-          res.status(StatusCodes.NOT_FOUND).json({ message: 'Tool not found' })
-      }
+    const updatedTool = await db.updateTool(Number(id), req.body)
+    if (updatedTool) {
+      res.status(StatusCodes.OK).json(updatedTool)
+    } else {
+      res.status(StatusCodes.NOT_FOUND).json({ message: 'Tool not found' })
+    }
   } catch (error) {
-      console.error(`Error updating tool with ID ${id}:`, error)
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error updating tool' })
+    console.error(`Error updating tool with ID ${id}:`, error)
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error updating tool' })
   }
 })
 
@@ -82,30 +91,25 @@ router.put('/:id', checkJwt, async (req: JwtRequest, res) => {
 router.delete('/:id', checkJwt, async (req: JwtRequest, res) => {
   const { id } = req.params
   try {
-      await db.deleteTool(Number(id))
-      res.status(StatusCodes.NO_CONTENT).send()
+    await db.deleteTool(Number(id))
+    res.status(StatusCodes.NO_CONTENT).send()
   } catch (error) {
-      console.error(`Error deleting tool with ID ${id}:`, error)
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error deleting tool' })
+    console.error(`Error deleting tool with ID ${id}:`, error)
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error deleting tool' })
   }
 })
 
 //TODO: GET /api/v1/tools/search
 //Search for tools based on various criteria
-router.get('/search', async (req, res) => {
-  const name = req.query.name as string | undefined
-  const rating = req.query.rating ? Number(req.query.rating) : undefined
-    try {
-        const searchResults = await db.searchTools({ name, rating })
-        if (searchResults.length > 0) {
-            res.status(StatusCodes.OK).json(searchResults)
-        } else {
-            res.status(StatusCodes.NOT_FOUND).json({ message: 'No tools found matching the criteria' })
-        }
-    } catch (error) {
-        console.error("Error searching for tools:", error)
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error searching for tools' })
-    }
+router.get('/search', async (req, res, next) => {
+  try {
+    const tool = await db.getToolsByCategoryDB(req.params.categories)
+    res.json(tool)
+  } catch (err) {
+    next(err)
+  }
 })
 
 export default router
