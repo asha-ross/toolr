@@ -60,7 +60,13 @@ router.post('/', checkJwt, async (req: JwtRequest, res, next) => {
 
   try {
     const { tool_owner, tool_name, description, availability, image } = req.body
-    const id = await db.addTool({ tool_owner, tool_name, description, availability, image })
+    const id = await db.addTool({
+      tool_owner,
+      tool_name,
+      description,
+      availability,
+      image,
+    })
     res
       .setHeader('Location', `${req.baseUrl}/${id}`)
       .sendStatus(StatusCodes.CREATED)
@@ -74,15 +80,17 @@ router.post('/', checkJwt, async (req: JwtRequest, res, next) => {
 router.put('/:id', checkJwt, async (req: JwtRequest, res) => {
   const { id } = req.params
   try {
-      const updatedTool = await db.updateTool(Number(id), req.body)
-      if (updatedTool) {
-          res.status(StatusCodes.OK).json(updatedTool)
-      } else {
-          res.status(StatusCodes.NOT_FOUND).json({ message: 'Tool not found' })
-      }
+    const updatedTool = await db.updateTool(Number(id), req.body)
+    if (updatedTool) {
+      res.status(StatusCodes.OK).json(updatedTool)
+    } else {
+      res.status(StatusCodes.NOT_FOUND).json({ message: 'Tool not found' })
+    }
   } catch (error) {
-      console.error(`Error updating tool with ID ${id}:`, error)
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error updating tool' })
+    console.error(`Error updating tool with ID ${id}:`, error)
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error updating tool' })
   }
 })
 
@@ -92,11 +100,13 @@ router.put('/:id', checkJwt, async (req: JwtRequest, res) => {
 router.delete('/:id', checkJwt, async (req: JwtRequest, res) => {
   const { id } = req.params
   try {
-      await db.deleteTool(Number(id))
-      res.status(StatusCodes.NO_CONTENT).send()
+    await db.deleteTool(Number(id))
+    res.status(StatusCodes.NO_CONTENT).send()
   } catch (error) {
-      console.error(`Error deleting tool with ID ${id}:`, error)
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error deleting tool' })
+    console.error(`Error deleting tool with ID ${id}:`, error)
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error deleting tool' })
   }
 })
 
