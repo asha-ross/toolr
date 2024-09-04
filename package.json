@@ -35,6 +35,7 @@
     "jwks-rsa": "^2.1.5",
     "knex": "^2.5.1",
     "sqlite3": "^5.1.6",
+    "styled-components": "^6.1.13",
     "superagent": "^8.1.2"
   },
   "devDependencies": {
