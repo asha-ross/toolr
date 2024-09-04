@@ -8,10 +8,9 @@
 // - GET /api/v1/tools/search (search for tools based on criteria)
 
 import { Router } from 'express'
-import checkJwt, { JwtRequest } from '../auth0.ts'
-import { StatusCodes } from 'http-status-codes'
 
 import * as db from '../db/functions/tools.ts'
+import * as db_users from '../db/functions/users.ts'
 
 const router = Router()
 
@@ -19,9 +18,9 @@ const router = Router()
 //Returns all tools, potentially with pagination?
 router.get('/', async (req, res) => {
   try {
-    const tools = await db.getAllTools()
+    const tools = await db.getAllToolsDB()
 
-    res.json({ tools: tools.map((tool) => tool.name) })
+    res.json(tools)
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: 'Something went wrong' })
@@ -32,7 +31,7 @@ router.get('/', async (req, res) => {
 //Returns a specific tool by id
 router.get('/:id', async (req, res, next) => {
   try {
-    const tool = await db.getToolById(req.params.id)
+    const tool = await db.getToolByIdDB(req.params.id)
     res.json(tool)
   } catch (err) {
     next(err)
@@ -41,34 +40,48 @@ router.get('/:id', async (req, res, next) => {
 
 //TODO: POST /api/v1/tools
 //Add a new tool
-router.post('/', checkJwt, async (req: JwtRequest, res, next) => {
-  if (!req.auth?.sub) {
-    res.sendStatus(StatusCodes.UNAUTHORIZED)
-    return
-  }
+// router.post('/', async (req, res, next) => {
 
-  try {
-    const { owner, name } = req.body
-    const id = await db.addTool({ owner, name })
-    res
-      .setHeader('Location', `${req.baseUrl}/${id}`)
-      .sendStatus(StatusCodes.CREATED)
-  } catch (err) {
-    next(err)
-  }
-})
+//     res.sendStatus(StatusCodes.UNAUTHORIZED)
+
+
+//   try {
+//     const { owner, name } = req.body
+//     const id = await db.addTool({ owner, name })
+//     res
+//       .setHeader('Location', `${req.baseUrl}/${id}`)
+//       .sendStatus(StatusCodes.CREATED)
+//   } catch (err) {
+//     next(err)
+//   }
+// })
 
 //TODO: PUT /api/v1/tools/:id
 //Update an existing tool
-router.put('/:id', checkJwt, async (req: JwtRequest, res, next) => {})
+// router.put('/:id', checkJwt, async (req: JwtRequest, res, next) => {})
 
 //TODO: DELETE /api/v1/tools/:id
 //Delete a tool
 
-router.delete('/:id', checkJwt, async (req: JwtRequest, res, next) => {})
+// router.delete('/:id', checkJwt, async (req: JwtRequest, res, next) => {})
 
 //TODO: GET /api/v1/tools/search
 //Search for tools based on various criteria
-router.get('/search', async (req, res) => {})
+// router.get('/search', async (req, res) => {})
+
+//Add a new user
+router.post('/', async (req, res) => {
+  const newUser = req.body
+  console.log('the server side is working too', newUser)
+
+  try {
+    await db_users.addUser(newUser)
+    res.sendStatus(200)
+  } catch (error) {
+    console.log('add user error')
+    res.sendStatus(500)
+  }
+})
+
 
 export default router

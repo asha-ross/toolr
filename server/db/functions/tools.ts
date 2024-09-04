@@ -15,21 +15,20 @@ import db from '../connection.ts'
 import { Tools } from '../../../models/tools.ts'
 
 export async function getAllToolsDB() {
-  const tool = await db('tool').select()
-  return tool as Tools[]
+  return db('tools').select('*')
 }
 
 export async function getToolByIdDB(id: number | string) {
-  const tool = await db('tool').select().first().where({ id })
+  const tool = await db('tools').select().first().where({ id })
   return tool as Tools
 }
 
 export async function getToolsByCategoryDB(category: string) {
-  const tool = await db('tool').select().where({ category })
+  const tool = await db('tools').select().where({ category })
   return tool as Tools[]
 }
 
-export async function addTool(data: ToolData) {
-  const [id] = await db('tool').insert(data)
-  return id
-}
+// export async function addTool(data: ToolData) {
+//   const [id] = await db('tools').insert(data)
+//   return id
+// }
