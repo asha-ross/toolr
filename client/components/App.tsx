@@ -1,12 +1,18 @@
-//This page wraps the whole project. Houses the "home page"
+//This page wraps the whole project - the root component.
+import { Outlet } from 'react-router-dom'
+import Header from './Header.tsx'
+import '../styles/main.css'
 
 function App() {
   return (
-    <>
-      <div className="app">
-        <h1 className="text-3xl font-bold underline">TOOLR</h1>
-      </div>
-    </>
+    <div className="App">
+      <header>
+        <Header />
+      </header>
+      <main>
+        <Outlet />
+      </main>
+    </div>
   )
 }
 

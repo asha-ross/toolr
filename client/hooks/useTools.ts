@@ -19,10 +19,10 @@ import {
   useQueryClient,
   MutationFunction,
 } from '@tanstack/react-query'
-import { getFruits } from '../apis/tools.ts'
+import { getTools } from '../apis/tools.ts'
 
 export function useFruits() {
-  const query = useQuery({ queryKey: ['fruits'], queryFn: getFruits })
+  const query = useQuery({ queryKey: ['fruits'], queryFn: getTools })
   return {
     ...query,
     // Extra queries go here e.g. addFruit: useAddFruit()
