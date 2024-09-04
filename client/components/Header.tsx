@@ -3,6 +3,7 @@
 
 import { Link } from 'react-router-dom'
 import logo from '../assets/toolr_logo.png'
+import Nav from './Nav'
 
 function Header() {
   return (
@@ -28,6 +29,9 @@ function Header() {
             <Link to="/help">Help</Link>
           </li>
         </ul>
+        <div>
+          <Nav />
+        </div>
       </nav>
     </header>
   )
