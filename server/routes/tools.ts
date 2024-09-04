@@ -19,7 +19,7 @@ const router = Router()
 //Returns all tools, potentially with pagination?
 router.get('/', async (req, res) => {
   try {
-    const tools = await db.getAllTools()
+    const tools = await db.getAllToolsDB()
 
     res.json({ tools: tools.map((tool) => tool.name) })
   } catch (error) {
@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
 //Returns a specific tool by id
 router.get('/:id', async (req, res, next) => {
   try {
-    const tool = await db.getToolById(req.params.id)
+    const tool = await db.getToolByIdDB(req.params.id)
     res.json(tool)
   } catch (err) {
     next(err)
@@ -60,15 +60,50 @@ router.post('/', checkJwt, async (req: JwtRequest, res, next) => {
 
 //TODO: PUT /api/v1/tools/:id
 //Update an existing tool
-router.put('/:id', checkJwt, async (req: JwtRequest, res, next) => {})
+router.put('/:id', checkJwt, async (req: JwtRequest, res, next) => {
+  const { id } = req.params
+  try {
+      const updatedTool = await updateTool(Number(id), req.body)
+      if (updatedTool) {
+          res.status(StatusCodes.OK).json(updatedTool)
+      } else {
+          res.status(StatusCodes.NOT_FOUND).json({ message: 'Tool not found' })
+      }
+  } catch (error) {
+      console.error(`Error updating tool with ID ${id}:`, error)
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error updating tool' })
+  }
+})
 
 //TODO: DELETE /api/v1/tools/:id
 //Delete a tool
 
-router.delete('/:id', checkJwt, async (req: JwtRequest, res, next) => {})
+router.delete('/:id', checkJwt, async (req: JwtRequest, res, next) => {
+  const { id } = req.params
+  try {
+      await deleteTool(Number(id))
+      res.status(StatusCodes.NO_CONTENT).send()
+  } catch (error) {
+      console.error(`Error deleting tool with ID ${id}:`, error)
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error deleting tool' })
+  }
+})
 
 //TODO: GET /api/v1/tools/search
 //Search for tools based on various criteria
-router.get('/search', async (req, res) => {})
+router.get('/search', async (req, res) => {
+  const { name, location, rating, availability } = req.query
+    try {
+        const searchResults = await searchTools({ name, location, rating, availability })
+        if (searchResults.length > 0) {
+            res.status(StatusCodes.OK).json(searchResults)
+        } else {
+            res.status(StatusCodes.NOT_FOUND).json({ message: 'No tools found matching the criteria' })
+        }
+    } catch (error) {
+        console.error("Error searching for tools:", error)
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error searching for tools' })
+    }
+})
 
 export default router
