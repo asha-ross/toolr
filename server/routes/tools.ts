@@ -19,9 +19,9 @@ const router = Router()
 //Returns all tools, potentially with pagination?
 router.get('/', async (req, res) => {
   try {
-    const tools = await db.getAllTools()
+    const tools = await db.getAllToolsDB()
 
-    res.json({ tools: tools.map((tool) => tool.name) })
+    res.json({ tools: tools.map((tool) => tool.tool_name) })
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: 'Something went wrong' })
@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
 //Returns a specific tool by id
 router.get('/:id', async (req, res, next) => {
   try {
-    const tool = await db.getToolById(req.params.id)
+    const tool = await db.getToolByIdDB(req.params.id)
     res.json(tool)
   } catch (err) {
     next(err)
@@ -69,6 +69,13 @@ router.delete('/:id', checkJwt, async (req: JwtRequest, res, next) => {})
 
 //TODO: GET /api/v1/tools/search
 //Search for tools based on various criteria
-router.get('/search', async (req, res) => {})
+router.get('/search', async (req, res, next) => {
+  try {
+    const tool = await db.getToolsByCategoryDB(req.params.categories)
+    res.json(tool)
+  } catch (err) {
+    next(err)
+  }
+})
 
 export default router

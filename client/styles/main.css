@@ -3,13 +3,37 @@ html {
   background-size: cover;
 }
 
-
 .home {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   height: 100vh;
+}
+
+.search-input {
+  padding: 15px;
+  width: 450px;
+  border-radius: 0.3rem;
+  margin-top: 25px;
+  box-shadow:
+    0,
+    0,
+    0,
+    0.8 black;
+}
+
+.search-button {
+  padding: 5px;
+  margin: 5px;
+  justify-content: center;
+}
+
+.helper-link {
+  padding: 10px;
+  margin-top: 20px;
+  font-family: monospace;
+  text-decoration: none;
 }
 
 .header {
@@ -24,7 +48,11 @@ html {
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 10px 0;
+  padding: 5px 0;
+}
+
+button {
+  margin: 5px;
 }
 
 .header-top h1 {
@@ -34,8 +62,8 @@ html {
 }
 
 .logo {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
 }
 
 .logo img {
@@ -47,11 +75,13 @@ html {
 nav {
   width: 100%;
   background-color: #4caf50;
-  padding: 10px 0;
+  padding: 5px;
+  margin-bottom: 15px;
 }
 
 nav ul {
   display: flex;
+  font-family: 'Courier New', Courier, monospace;
   justify-content: center;
   list-style-type: none;
   margin: 0;
