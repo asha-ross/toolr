@@ -1,6 +1,7 @@
 // Define TS interfaces
 //what to include here? Tool name, id, other properties?
 //Also, user info?
+//add rating and price to Tools? I want to add these two but so many files have to be modified. Will make sure the app is running and will add these two later.
 
 export interface Tools {
   id: number
@@ -9,6 +10,8 @@ export interface Tools {
   description: string
   image: string
   availability: boolean
+  //user_rating: number
+  //cost: number  
   created_at: Date
 }
 

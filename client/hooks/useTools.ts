@@ -17,28 +17,63 @@ import {
   useQuery,
   useMutation,
   useQueryClient,
-  MutationFunction,
 } from '@tanstack/react-query'
-import { getTools } from '../apis/tools.ts'
+import { getTools, addTool, editTool, deleteTool } from '../apis/tools'
+import { Tools } from '../../models/tools'
 
-export function useFruits() {
-  const query = useQuery({ queryKey: ['fruits'], queryFn: getTools })
+// Hook to fetch all tools
+export function useTools() {
+  const query = useQuery({
+    queryKey: ['tools'], 
+    queryFn: getTools,  
+  })
   return {
     ...query,
-    // Extra queries go here e.g. addFruit: useAddFruit()
   }
 }
 
-export function useFruitsMutation<TData = unknown, TVariables = unknown>(
-  mutationFn: MutationFunction<TData, TVariables>,
-) {
+// Hook for adding a tool
+export function useAddTool() {
   const queryClient = useQueryClient()
-  const mutation = useMutation({
-    mutationFn,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['fruits'] })
-    },
-  })
 
-  return mutation
+  return useMutation({
+    mutationFn: addTool,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tools'] })
+    },
+    onError: (error) => {
+      console.error('Error adding tool:', error)
+    }
+  })
+}
+
+// Hook for editing a tool
+export function useEditTool() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, updates }: { id: number, updates: Partial<Tools> }) =>
+      editTool(id, updates),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tools'] })
+    },
+    onError: (error) => {
+      console.error('Error editing tool:', error)
+    }
+  })
+}
+
+// Hook for deleting a tool
+export function useDeleteTool() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: number) => deleteTool(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tools'] })
+    },
+    onError: (error) => {
+      console.error('Error deleting tool:', error)
+    }
+  })
 }
