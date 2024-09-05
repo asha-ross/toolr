@@ -8,10 +8,11 @@
 // - GET /api/v1/tools/search (search for tools based on criteria)
 
 import { Router } from 'express'
-import checkJwt, { JwtRequest } from '../auth0.ts'
-import { StatusCodes } from 'http-status-codes'
 
 import * as db from '../db/functions/tools.ts'
+import * as db_users from '../db/functions/users.ts'
+import { StatusCodes } from 'http-status-codes'
+// import checkJwt, { JwtRequest } from '../auth0.ts'
 const router = Router()
 
 //TODO: GET /api/v1/tools
@@ -20,7 +21,7 @@ router.get('/', async (req, res) => {
   try {
     const tools = await db.getAllToolsDB()
 
-    res.json({ tools: tools.map((tool) => tool.tool_name) })
+    res.json(tools)
   } catch (error) {
     console.error('Error fetching tools:', error)
     res.status(500).json({ message: 'somthing went wrong on the server' })
@@ -44,32 +45,32 @@ router.get('/:id', async (req, res, next) => {
 
 //TODO: POST /api/v1/tools
 //Add a new tool
-router.post('/', checkJwt, async (req: JwtRequest, res, next) => {
-  if (!req.auth?.sub) {
-    res.sendStatus(StatusCodes.UNAUTHORIZED)
-    return
-  }
+// router.post('/', async (req, res, next) => {
+//   if (!req.sub) {
+//     res.sendStatus(StatusCodes.UNAUTHORIZED)
+//     return
+//   }
 
-  try {
-    const { tool_owner, tool_name, description, availability, image } = req.body
-    const id = await db.addTool({
-      tool_owner,
-      tool_name,
-      description,
-      availability,
-      image,
-    })
-    res
-      .setHeader('Location', `${req.baseUrl}/${id}`)
-      .sendStatus(StatusCodes.CREATED)
-  } catch (err) {
-    next(err)
-  }
-})
+//   try {
+//     const { tool_owner, tool_name, description, availability, image } = req.body
+//     const id = await db.addTool({
+//       tool_owner,
+//       tool_name,
+//       description,
+//       availability,
+//       image,
+//     })
+//     res
+//       .setHeader('Location', `${req.baseUrl}/${id}`)
+//       .sendStatus(StatusCodes.CREATED)
+//   } catch (err) {
+//     next(err)
+//   }
+// })
 
 //TODO: PUT /api/v1/tools/:id
 //Update an existing tool
-router.put('/:id', checkJwt, async (req: JwtRequest, res) => {
+router.put('/:id', async (req, res) => {
   const { id } = req.params
   try {
     const updatedTool = await db.updateTool(Number(id), req.body)
@@ -89,7 +90,7 @@ router.put('/:id', checkJwt, async (req: JwtRequest, res) => {
 //TODO: DELETE /api/v1/tools/:id
 //Delete a tool
 
-router.delete('/:id', checkJwt, async (req: JwtRequest, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params
   try {
     await db.deleteTool(Number(id))
@@ -123,5 +124,33 @@ router.get('/search', async (req, res) => {
       .json({ message: 'Error searching for tools' })
   }
 })
+
+//Add a new user
+router.post('/', async (req, res) => {
+  const newUser = req.body
+  console.log('the server side is working too', newUser)
+
+  try {
+    await db_users.addUser(newUser)
+    res.sendStatus(200)
+  } catch (error) {
+    console.log('add user error')
+    res.sendStatus(500)
+  }
+})
+
+
+// Get user by auth_id
+router.get('/api/v1/users/:auth_id', async (req, res) => {
+  const { auth_id } = req.params;
+  const user = await db_users.getUserByAuthId(auth_id);
+  if (user) {
+    res.status(200).json(user);
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
+});
+
+
 
 export default router

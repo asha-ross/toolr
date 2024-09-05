@@ -4,14 +4,40 @@
 //Will take the user to a new page (of products) ONCE they sign in to their profile
 //Simple design, should have a logo or style that is distinguishable as "toolr" (ie: dark, green, probably a tool icon)
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
+import { addUser, checkUserExists } from '../apis/tools'
+
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
+
+  const { user, getAccessTokenSilently } = useAuth0()
+
+
+  const [token, setToken] = useState('')
+
+  useEffect(() => {
+    if (user) {
+      (async () => {
+        const fetchedToken = await getAccessTokenSilently();
+        setToken(fetchedToken);
+
+        const userExists = await checkUserExists(String(user?.sub), fetchedToken);
+        if(!userExists) {
+          await addUser({
+          auth_id: String(user?.sub),
+          username: String(user?.nickname),
+          created_at: new Date(),
+        }, token)};
+      })();
+    }
+  }, [user, getAccessTokenSilently, token]);
+
 
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -34,9 +60,18 @@ export default function Home() {
     }
   }
 
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault()
+  //   addUserMutation.mutate({
+  //     auth_id: String(user?.sub),
+  //     username: String(user?.nickname),
+  //     created_at: new Date(),
+  //   })
+  // }
+
   return (
     <div className="home">
-      <form onSubmit={handleSearch} className="search-form">
+      <form onSubmit={(event) => handleSearch(event)} className="search-form">
         <input
           type="text"
           value={searchTerm}
@@ -53,5 +88,7 @@ export default function Home() {
         Not sure where to start? Click here for our ToolR assistant
       </Link>
     </div>
-  )
+  );
 }
+
+

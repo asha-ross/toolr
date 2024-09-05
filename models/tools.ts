@@ -26,10 +26,13 @@ export interface Roles {
 }
 
 export interface Users {
-  id: number
   auth_id: string
   username: string
   created_at: Date
+}
+
+export interface UsersData extends Users {
+  id: number
 }
 
 export interface Transactions {

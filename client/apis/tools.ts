@@ -4,12 +4,13 @@
 //import models/interfaces for tools, users etc
 
 import request from 'superagent'
-import { Tools, NewTool } from '../../models/tools'
+import { Tools, NewTool, Users } from '../../models/tools'
 
-const rootUrl = '/api/v1'
+
+const rootUrl = '/api/v1/'
 
 export async function getTools(): Promise<Tools[]> {
-  return request.get(rootUrl + '/tools').then((res) => {
+  return request.get(rootUrl + 'tools').then((res) => {
     return res.body.tools
   })
 }
@@ -20,7 +21,7 @@ export async function getTools(): Promise<Tools[]> {
 
 export async function addTool(tool: NewTool): Promise<Tools> {
   return request
-    .post(rootUrl + '/tools')
+    .post(rootUrl + 'tools')
     .send(tool)
     .then((res) => {
       return res.body // Assuming the newly created tool is returned in the response body
@@ -36,7 +37,7 @@ export async function editTool(
   updates: Partial<Tools>,
 ): Promise<Tools> {
   return request
-    .put(`${rootUrl + '/tools'}/${id}`)
+    .put(`${rootUrl + 'tools'}/${id}`)
     .send(updates)
     .then((res) => {
       return res.body
@@ -44,10 +45,36 @@ export async function editTool(
 }
 
 // TODO: add deleteTool function
-// Use request.delete() to send a DELETE request to `${rootUrl}/${id}`
-// Return success message "tool deleted"
+// // // Use request.delete() to send a DELETE request to `${rootUrl}/${id}`
+// // Return success message "tool deleted"
 export async function deleteTool(id: number): Promise<void> {
-  return request.delete(`${rootUrl}/${id}`).then(() => {
+  return request.delete(`${rootUrl}tools/${id}`).then(() => {
     return
   })
 }
+
+export async function checkUserExists(auth_id: string, token: string) {
+  const response = await fetch(`/api/v1/users/${auth_id}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.ok ? await response.json() : null;
+}
+
+
+export async function addUser(user: Users, token: string) {
+  try {
+    const response = await request
+    .post('/api/v1/').send(user)
+    .set('Authorization', `Bearer ${token}`)
+    return response.body
+  } catch (error) {
+    console.error('Error adding user:', error)
+    throw error
+  }
+}
+
+
