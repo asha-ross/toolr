@@ -32,6 +32,18 @@ export function getTools(): Promise<Tools[]> {
 //   // Return success message "tool deleted"
 // }
 
+export async function checkUserExists(auth_id: string, token: string) {
+  const response = await fetch(`/api/users/${auth_id}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.ok ? await response.json() : null;
+}
+
+
 export async function addUser(user: Users, token: string) {
   try {
     const response = await request
@@ -43,3 +55,5 @@ export async function addUser(user: Users, token: string) {
     throw error
   }
 }
+
+

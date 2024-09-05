@@ -8,7 +8,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
-import { addUser } from '../apis/tools'
+import { addUser, checkUserExists } from '../apis/tools'
 
 
 export default function Home() {
@@ -24,11 +24,14 @@ export default function Home() {
       (async () => {
         const fetchedToken = await getAccessTokenSilently();
         setToken(fetchedToken);
-        await addUser({
+
+        const userExists = await checkUserExists(String(user?.sub), fetchedToken);
+        if(!userExists) {
+          await addUser({
           auth_id: String(user?.sub),
           username: String(user?.nickname),
           created_at: new Date(),
-        }, token);
+        }, token)};
       })();
     }
   }, [user, getAccessTokenSilently, token]);
