@@ -10,7 +10,7 @@ export default function Products() {
   const { results, searchTerm } = { results: [] as Tools[], searchTerm: '' }
 
   if (!results) {
-    return <div>Loading...</div>
+    return <div>Loading Tools...</div>
   }
 
   return (
