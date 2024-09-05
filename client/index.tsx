@@ -11,21 +11,18 @@ const queryClient = new QueryClient()
 
 document.addEventListener('DOMContentLoaded', () => {
   createRoot(document.getElementById('app') as HTMLElement).render(
-    /**
-     * TODO: replace domain, clientId, and audience
-     */
-    <Auth0Provider
-      domain="karaka-2024-andrewk.au.auth0.com"
-      clientId="vyIjkSXYCl5aHOKpNQSkA8MuC9wCd4PV"
-      authorizationParams={{
-        redirect_uri: window.location.origin,
-        audience: 'https://toolr/api',
-      }}
-    >
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <Auth0Provider
+        domain="karaka-2024-andrewk.au.auth0.com"
+        clientId="vyIjkSXYCl5aHOKpNQSkA8MuC9wCd4PV"
+        authorizationParams={{
+          redirect_uri: window.location.origin,
+          audience: 'https://toolr/api',
+        }}
+      >
         <RouterProvider router={router} />
         <ReactQueryDevtools />
-      </QueryClientProvider>
-    </Auth0Provider>,
+      </Auth0Provider>
+    </QueryClientProvider>,
   )
 })

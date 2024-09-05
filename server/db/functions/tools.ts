@@ -28,7 +28,7 @@ export async function getAllToolsDB() {
 // Get a tool by its ID
 export async function getToolByIdDB(id: number | string) {
   try {
-    const tool = await db('tool').where({ id }).first()
+    const tool = await db('tools').where({ id }).first()
     if (!tool) {
       throw new Error('Tool not found')
     }
@@ -42,7 +42,7 @@ export async function getToolByIdDB(id: number | string) {
 // Get tools by category
 export async function getToolsByCategoryDB(category: string) {
   try {
-    const tools = await db('tool').where({ category })
+    const tools = await db('tools').where({ category })
     return tools as Tools[]
   } catch (error) {
     console.error(`Error fetching tools by category ${category}:`, error)
@@ -53,7 +53,7 @@ export async function getToolsByCategoryDB(category: string) {
 // Add a new tool to the database
 export async function addTool(data: Partial<Tools>) {
   try {
-    const [id] = await db('tool').insert(data).returning('id')
+    const [id] = await db('tools').insert(data).returning('id')
     return id
   } catch (error) {
     console.error('Error adding new tool:', error)
@@ -64,16 +64,16 @@ export async function addTool(data: Partial<Tools>) {
 // Update a tool by its ID
 export async function updateTool(id: number, data: Partial<Tools>) {
   try {
-    const updatedRows = await db('tool')
+    const updatedRows = await db('tools')
       .where({ id })
       .update(data)
-      .returning('*') 
+      .returning('*')
 
     if (updatedRows.length === 0) {
       throw new Error('Tool not found')
     }
 
-    return updatedRows[0] as Tools 
+    return updatedRows[0] as Tools
     console.error(`Error updating tool with ID ${id}:`, Error)
     throw new Error('Failed to update tool')
   } catch (error) {
@@ -85,9 +85,7 @@ export async function updateTool(id: number, data: Partial<Tools>) {
 // Delete a tool by its ID
 export async function deleteTool(id: number) {
   try {
-    const deletedRows = await db('tool')
-      .where({ id })
-      .del()
+    const deletedRows = await db('tools').where({ id }).del()
 
     if (deletedRows === 0) {
       throw new Error('Tool not found')
@@ -103,14 +101,14 @@ export async function deleteTool(id: number) {
 // Search for tools based on multiple criteria (name, rating, price, etc.)
 // Includes sorting by specified parameter and order ('asc' or 'desc')
 export async function searchTools(criteria: {
-  name?: string,
-  rating?: number,
-  price?: number,
-  sortBy?: 'name' | 'price' | 'rating',
+  name?: string
+  rating?: number
+  price?: number
+  sortBy?: 'name' | 'price' | 'rating'
   sortOrder?: 'asc' | 'desc'
 }) {
   try {
-    let query = db('tool').select()
+    let query = db('tools').select()
 
     // Filter by name
     if (criteria.name) {
@@ -129,7 +127,7 @@ export async function searchTools(criteria: {
 
     // Apply sorting
     if (criteria.sortBy) {
-      const sortOrder = criteria.sortOrder || 'asc' 
+      const sortOrder = criteria.sortOrder || 'asc'
       query = query.orderBy(criteria.sortBy, sortOrder)
     }
 
