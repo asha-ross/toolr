@@ -5,41 +5,46 @@
 //Simple design, should have a logo or style that is distinguishable as "toolr" (ie: dark, green, probably a tool icon)
 
 import React, { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { getTools } from '../apis/tools'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import { addUser, checkUserExists } from '../apis/tools'
 import { Tools } from '../../models/tools'
 
-
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [tools, setTools] = useState([])
   const navigate = useNavigate()
 
   const { user, getAccessTokenSilently } = useAuth0()
-
 
   const [token, setToken] = useState('')
 
   useEffect(() => {
     if (user) {
-      (async () => {
-        const fetchedToken = await getAccessTokenSilently();
-        setToken(fetchedToken);
+      ;(async () => {
+        const fetchedToken = await getAccessTokenSilently()
+        setToken(fetchedToken)
 
-        const userExists = await checkUserExists(String(user?.sub), fetchedToken);
-        if(!userExists) {
-          await addUser({
-          auth_id: String(user?.sub),
-          username: String(user?.nickname),
-          created_at: new Date(),
-        }, token)};
-      })();
+        const userExists = await checkUserExists(
+          String(user?.sub),
+          fetchedToken,
+        )
+        if (!userExists) {
+          await addUser(
+            {
+              auth_id: String(user?.sub),
+              username: String(user?.nickname),
+              created_at: new Date(),
+            },
+            token,
+          )
+        }
+      })()
     }
-  }, [user, getAccessTokenSilently, token]);
-
+  }, [user, getAccessTokenSilently, token])
 
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -61,22 +66,22 @@ export default function Home() {
       setIsLoading(false)
     }
   }
-  const handleShowAllTools = async () => {
-    setIsLoading(true)
-    setError(null)
-    try {
-      const response = await fetch(`/api/v1/tools`) // Assuming this is your API to get all tools
-      if (!response.ok) {
-        throw new Error('Failed to fetch tools')
-      }
-      const allTools = await response.json()
-      setTools(allTools.tools) // Store the fetched tools in state
-    } catch (err) {
-      setError('An error occurred while fetching tools, please try again.')
-    } finally {
-      setIsLoading(false)
-    }
+
+  const {
+    data: tools,
+    isLoading: isLoadingTools,
+    error: toolsError,
+    refetch: refetchTools,
+  } = useQuery({
+    queryKey: ['allTools'],
+    queryFn: getTools,
+    enabled: false,
+  })
+
+  const handleShowAllTools = () => {
+    refetchTools()
   }
+
   // const handleSubmit = (e: React.FormEvent) => {
   //   e.preventDefault()
   //   addUserMutation.mutate({
@@ -102,16 +107,24 @@ export default function Home() {
       </form>
       {error && <p className="error-message">{error}</p>}
 
-      <button onClick={handleShowAllTools} className="show-all-button" disabled={isLoading}>
-        {isLoading ? 'Loading tools...' : 'Show all tools'}
+      <button
+        onClick={handleShowAllTools}
+        className="show-all-button"
+        disabled={isLoadingTools}
+      >
+        {isLoadingTools ? 'Loading tools...' : 'Show all tools'}
       </button>
-      {tools.length > 0 && (
+      {toolsError && <p className="error-message">{toolsError.message}</p>}
+      {tools && Array.isArray(tools) && tools.length > 0 && (
         <ul className="tools-list">
           {tools.map((tool: Tools) => (
             <li key={tool.id}>
               <h3>{tool.tool_name}</h3>
               <p>{tool.description}</p>
-              <p>Availability: {tool.availability ? 'Available' : 'Not Available'}</p>
+              <p>
+                Availability:{' '}
+                {tool.availability ? 'Available' : 'Not Available'}
+              </p>
             </li>
           ))}
         </ul>
@@ -119,9 +132,6 @@ export default function Home() {
       <Link to="/tool-finder" className="helper-link">
         Not sure where to start? Click here for our ToolR assistant
       </Link>
-
     </div>
-  );
+  )
 }
-
-

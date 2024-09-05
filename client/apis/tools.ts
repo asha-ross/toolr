@@ -6,13 +6,21 @@
 import request from 'superagent'
 import { Tools, NewTool, Users } from '../../models/tools'
 
-
 const rootUrl = '/api/v1/'
 
 export async function getTools(): Promise<Tools[]> {
-  return request.get(rootUrl + 'tools').then((res) => {
+  try {
+    const res = await request.get(rootUrl + 'tools')
+    console.log('API response:', res)
+    if (!res.body || !Array.isArray(res.body.tools)) {
+      console.error('Unexpected API response structure:', res.body)
+      return []
+    }
     return res.body.tools
-  })
+  } catch (error) {
+    console.error('Error fetching tools:', error)
+    return []
+  }
 }
 
 // TODO: add addTool function
@@ -59,22 +67,20 @@ export async function checkUserExists(auth_id: string, token: string) {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  });
+  })
 
-  return response.ok ? await response.json() : null;
+  return response.ok ? await response.json() : null
 }
-
 
 export async function addUser(user: Users, token: string) {
   try {
     const response = await request
-    .post('/api/v1/').send(user)
-    .set('Authorization', `Bearer ${token}`)
+      .post('/api/v1/')
+      .send(user)
+      .set('Authorization', `Bearer ${token}`)
     return response.body
   } catch (error) {
     console.error('Error adding user:', error)
     throw error
   }
 }
-
-

@@ -139,18 +139,15 @@ router.post('/', async (req, res) => {
   }
 })
 
-
 // Get user by auth_id
 router.get('/api/v1/users/:auth_id', async (req, res) => {
-  const { auth_id } = req.params;
-  const user = await db_users.getUserByAuthId(auth_id);
+  const { auth_id } = req.params
+  const user = await db_users.getUserByAuthId(auth_id)
   if (user) {
-    res.status(200).json(user);
+    res.status(200).json(user)
   } else {
-    res.status(404).json({ message: 'User not found' });
+    res.status(404).json({ message: 'User not found' })
   }
-});
-
-
+})
 
 export default router
