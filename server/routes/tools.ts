@@ -19,15 +19,11 @@ const router = Router()
 router.get('/', async (req, res) => {
   try {
     const tools = await db.getAllToolsDB()
-<<<<<<< HEAD
 
     res.json({ tools: tools.map((tool) => tool.tool_name) })
-=======
-    res.json({ tools })
->>>>>>> development
   } catch (error) {
     console.error('Error fetching tools:', error)
-    res.status(500).json({ message: 'somthing went wrong on the server'})
+    res.status(500).json({ message: 'somthing went wrong on the server' })
   }
 })
 
@@ -35,16 +31,12 @@ router.get('/', async (req, res) => {
 //Returns a specific tool by id
 router.get('/:id', async (req, res, next) => {
   try {
-<<<<<<< HEAD
-    const tool = await db.getToolByIdDB(req.params.id)
-    res.json(tool)
-=======
     const tool = await db.getToolByIdDB(Number(req.params.id))
     if (tool) {
       res.json(tool)
     } else {
-      res.status(StatusCodes.NOT_FOUND).json({ message: 'Tool not found' })}
->>>>>>> development
+      res.status(StatusCodes.NOT_FOUND).json({ message: 'Tool not found' })
+    }
   } catch (err) {
     next(err)
   }
@@ -112,30 +104,24 @@ router.delete('/:id', checkJwt, async (req: JwtRequest, res) => {
 
 //TODO: GET /api/v1/tools/search
 //Search for tools based on various criteria
-<<<<<<< HEAD
-router.get('/search', async (req, res, next) => {
-  try {
-    const tool = await db.getToolsByCategoryDB(req.params.categories)
-    res.json(tool)
-  } catch (err) {
-    next(err)
-  }
-=======
 router.get('/search', async (req, res) => {
   const name = req.query.name as string | undefined
   const rating = req.query.rating ? Number(req.query.rating) : undefined
-    try {
-        const searchResults = await db.searchTools({ name, rating })
-        if (searchResults.length > 0) {
-            res.status(StatusCodes.OK).json(searchResults)
-        } else {
-            res.status(StatusCodes.NOT_FOUND).json({ message: 'No tools found matching the criteria' })
-        }
-    } catch (error) {
-        console.error("Error searching for tools:", error)
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error searching for tools' })
+  try {
+    const searchResults = await db.searchTools({ name, rating })
+    if (searchResults.length > 0) {
+      res.status(StatusCodes.OK).json(searchResults)
+    } else {
+      res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: 'No tools found matching the criteria' })
     }
->>>>>>> development
+  } catch (error) {
+    console.error('Error searching for tools:', error)
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error searching for tools' })
+  }
 })
 
 export default router
