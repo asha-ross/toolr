@@ -2,17 +2,19 @@
 //a central search bar, with the placeholder: "what are you looking for today?"
 //Also has the Helper Text ("if you don't know what you're looking for, ask our assistant")
 //Will take the user to a new page (of products) ONCE they sign in to their profile
-//To consider: where is the sign in link, at what point do you select your location?
 //Simple design, should have a logo or style that is distinguishable as "toolr" (ie: dark, green, probably a tool icon)
 
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import { addUser, checkUserExists } from '../apis/tools'
 
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate()
 
   const { user, getAccessTokenSilently } = useAuth0()
 
@@ -36,14 +38,26 @@ export default function Home() {
     }
   }, [user, getAccessTokenSilently, token]);
 
-  // const addUserMutation = useMutation({
-  //   mutationFn: (user: Users) => addUser(user, token),
-  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ['user'] }),
-  // })
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-   e.preventDefault()
-   //TODO: Need to input some search logic here
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError(null)
+    if (!searchTerm.trim()) {
+      return
+    }
+    try {
+      const response = await fetch(`/api/v1/tools/search`) //FIX API ENDPOINT
+      if (!response.ok) {
+        throw new Error('Search failed to return tools')
+      }
+      const results = await response.json()
+      navigate('/search-results', { state: { results, searchTerm } })
+    } catch (err) {
+      setError('An error occured while searching, please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   // const handleSubmit = (e: React.FormEvent) => {
@@ -65,10 +79,11 @@ export default function Home() {
           placeholder="What are you looking for today?"
           className="search-input"
         />
-        <button type="submit" className="search-button">
-          Search
+        <button type="submit" className="search-button" disabled={isLoading}>
+          {isLoading ? 'Searching' : 'Search'}
         </button>
       </form>
+      {error && <p className="error-message">{error}</p>}
       <Link to="/tool-finder" className="helper-link">
         Not sure where to start? Click here for our ToolR assistant
       </Link>

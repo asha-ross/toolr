@@ -1,4 +1,5 @@
 import db from '../connection.ts'
+// import { Transactions } from '../../../models/tools.ts'
 
 export async function getAllRentals() {
   try {

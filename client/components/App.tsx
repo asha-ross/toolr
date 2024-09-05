@@ -2,7 +2,6 @@
 import { Outlet } from 'react-router-dom'
 import Header from './Header.tsx'
 import '../styles/main.css'
-import Nav from './Nav.tsx'
 
 function App() {
   return (

@@ -11,7 +11,8 @@ import { Router } from 'express'
 
 import * as db from '../db/functions/tools.ts'
 import * as db_users from '../db/functions/users.ts'
-
+import { StatusCodes } from 'http-status-codes'
+// import checkJwt, { JwtRequest } from '../auth0.ts'
 const router = Router()
 
 //TODO: GET /api/v1/tools
@@ -22,8 +23,8 @@ router.get('/', async (req, res) => {
 
     res.json(tools)
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ message: 'Something went wrong' })
+    console.error('Error fetching tools:', error)
+    res.status(500).json({ message: 'somthing went wrong on the server' })
   }
 })
 
@@ -31,8 +32,12 @@ router.get('/', async (req, res) => {
 //Returns a specific tool by id
 router.get('/:id', async (req, res, next) => {
   try {
-    const tool = await db.getToolByIdDB(req.params.id)
-    res.json(tool)
+    const tool = await db.getToolByIdDB(Number(req.params.id))
+    if (tool) {
+      res.json(tool)
+    } else {
+      res.status(StatusCodes.NOT_FOUND).json({ message: 'Tool not found' })
+    }
   } catch (err) {
     next(err)
   }
@@ -41,13 +46,20 @@ router.get('/:id', async (req, res, next) => {
 //TODO: POST /api/v1/tools
 //Add a new tool
 // router.post('/', async (req, res, next) => {
-
+//   if (!req.sub) {
 //     res.sendStatus(StatusCodes.UNAUTHORIZED)
-
+//     return
+//   }
 
 //   try {
-//     const { owner, name } = req.body
-//     const id = await db.addTool({ owner, name })
+//     const { tool_owner, tool_name, description, availability, image } = req.body
+//     const id = await db.addTool({
+//       tool_owner,
+//       tool_name,
+//       description,
+//       availability,
+//       image,
+//     })
 //     res
 //       .setHeader('Location', `${req.baseUrl}/${id}`)
 //       .sendStatus(StatusCodes.CREATED)
@@ -58,16 +70,60 @@ router.get('/:id', async (req, res, next) => {
 
 //TODO: PUT /api/v1/tools/:id
 //Update an existing tool
-// router.put('/:id', checkJwt, async (req: JwtRequest, res, next) => {})
+router.put('/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    const updatedTool = await db.updateTool(Number(id), req.body)
+    if (updatedTool) {
+      res.status(StatusCodes.OK).json(updatedTool)
+    } else {
+      res.status(StatusCodes.NOT_FOUND).json({ message: 'Tool not found' })
+    }
+  } catch (error) {
+    console.error(`Error updating tool with ID ${id}:`, error)
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error updating tool' })
+  }
+})
 
 //TODO: DELETE /api/v1/tools/:id
 //Delete a tool
 
-// router.delete('/:id', checkJwt, async (req: JwtRequest, res, next) => {})
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    await db.deleteTool(Number(id))
+    res.status(StatusCodes.NO_CONTENT).send()
+  } catch (error) {
+    console.error(`Error deleting tool with ID ${id}:`, error)
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error deleting tool' })
+  }
+})
 
 //TODO: GET /api/v1/tools/search
 //Search for tools based on various criteria
-// router.get('/search', async (req, res) => {})
+router.get('/search', async (req, res) => {
+  const name = req.query.name as string | undefined
+  const rating = req.query.rating ? Number(req.query.rating) : undefined
+  try {
+    const searchResults = await db.searchTools({ name, rating })
+    if (searchResults.length > 0) {
+      res.status(StatusCodes.OK).json(searchResults)
+    } else {
+      res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: 'No tools found matching the criteria' })
+    }
+  } catch (error) {
+    console.error('Error searching for tools:', error)
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error searching for tools' })
+  }
+})
 
 //Add a new user
 router.post('/', async (req, res) => {
@@ -85,7 +141,7 @@ router.post('/', async (req, res) => {
 
 
 // Get user by auth_id
-router.get('/api/users/:auth_id', async (req, res) => {
+router.get('/api/v1/users/:auth_id', async (req, res) => {
   const { auth_id } = req.params;
   const user = await db_users.getUserByAuthId(auth_id);
   if (user) {

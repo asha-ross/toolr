@@ -6,10 +6,18 @@ export interface Tools {
   id: number
   tool_name: string
   tool_owner: string
-  description: Text
+  description: string
   image: string
   availability: boolean
   created_at: Date
+}
+
+export interface NewTool {
+  tool_name: string
+  tool_owner: string
+  description: string
+  image: string
+  availability: boolean
 }
 
 export interface Roles {
