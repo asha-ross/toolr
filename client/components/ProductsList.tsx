@@ -29,7 +29,7 @@ export default function GetAllProducts() {
               </Link>
               <p>{tool.description}</p>
               <p>{tool.tool_owner}</p>
-              <img src={tool.image} alt={tool.tool_name}/>
+              <img src={tool.image} alt={tool.tool_name} className='tool-container'/>
               <p>
                 Available:{tool.availability}
                 
