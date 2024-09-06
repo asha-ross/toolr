@@ -24,6 +24,19 @@ export async function getTools(): Promise<Tools[]> {
   }
 }
 
+export async function fetchTools(searchTerm: string = ''): Promise<Tools[]> {
+  try {
+    const res = await request
+      .get(`${rootUrl}/tools/search`)
+      .query({ name: searchTerm })
+
+    return res.body
+  } catch (error) {
+    console.error('Error fetching tools:', error)
+    throw new Error('Failed to fetch tools')
+  }
+}
+
 // TODO: add addTool function
 // Use request.post() to send a POST request to rootUrl
 // Return the newly created tool from the response

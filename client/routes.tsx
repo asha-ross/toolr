@@ -5,12 +5,13 @@ import Home from './components/Home'
 import Profile from './components/Profile'
 // import Products from './components/Products'
 //<Route path="categories" element={<Categories />} />
-//<Route path="products" element={<Products />} />
+import Products from './components/Products.tsx'
+;<Route path="products" element={<Products />} />
 
 export default createRoutesFromElements(
   <Route path="/" element={<App />}>
     <Route index element={<Home />} />
     <Route path="profile" element={<Profile />} />
-    
+    <Route path="products" element={<Products />} />
   </Route>,
 )
