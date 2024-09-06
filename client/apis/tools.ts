@@ -12,11 +12,12 @@ export async function getTools(): Promise<Tools[]> {
   try {
     const res = await request.get(rootUrl + 'tools')
     console.log('API response:', res)
-    if (!res.body || !Array.isArray(res.body.tools)) {
+    if (Array.isArray(res.body)) {
+      return res.body
+    } else {
       console.error('Unexpected API response structure:', res.body)
       return []
     }
-    return res.body.tools
   } catch (error) {
     console.error('Error fetching tools:', error)
     return []
