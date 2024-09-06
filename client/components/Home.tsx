@@ -46,25 +46,16 @@ export default function Home() {
     }
   }, [user, getAccessTokenSilently, token])
 
-  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
     setError(null)
     if (!searchTerm.trim()) {
+      setIsLoading(false)
       return
     }
-    try {
-      const response = await fetch(`/api/v1/tools/search`) //FIX API ENDPOINT
-      if (!response.ok) {
-        throw new Error('Search failed to return tools')
-      }
-      const results = await response.json()
-      navigate('/search-results', { state: { results, searchTerm } })
-    } catch (err) {
-      setError('An error occured while searching, please try again.')
-    } finally {
-      setIsLoading(false)
-    }
+    navigate(`/products?search=${encodeURIComponent(searchTerm)}`)
+    setIsLoading(false)
   }
 
   const {
@@ -93,7 +84,7 @@ export default function Home() {
 
   return (
     <div className="home">
-      <form onSubmit={(event) => handleSearch(event)} className="search-form">
+      <form onSubmit={handleSearch} className="search-form">
         <input
           type="text"
           value={searchTerm}
