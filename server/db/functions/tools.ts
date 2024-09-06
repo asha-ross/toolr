@@ -28,7 +28,7 @@ export async function getAllToolsDB() {
 // Get a tool by its ID
 export async function getToolByIdDB(id: number | string) {
   try {
-    const tool = await db('tools').where({ id }).first()
+    const tool = await db('tools').select().where({ id }).first()
     if (!tool) {
       throw new Error('Tool not found')
     }
