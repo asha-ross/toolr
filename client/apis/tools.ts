@@ -24,6 +24,8 @@ export async function getTools(): Promise<Tools[]> {
   }
 }
 
+//TODO: this isn't returning the existing tools yet, but I may just need to update db and migrate again.
+//Do some error checking? 
 export async function fetchTools(searchTerm: string = ''): Promise<Tools[]> {
   try {
     const res = await request
