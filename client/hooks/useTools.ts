@@ -13,19 +13,21 @@
 
 // Note: We'll use "useMutation" from react-query to create these hooks
 
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query'
-import { getTools, addTool, editTool, deleteTool } from '../apis/tools'
+  getTools,
+  addTool,
+  editTool,
+  deleteTool,
+  getToolsByCategory,
+} from '../apis/tools'
 import { Tools } from '../../models/tools'
 
 // Hook to fetch all tools
 export function useTools() {
   const query = useQuery({
-    queryKey: ['tools'], 
-    queryFn: getTools,  
+    queryKey: ['tools'],
+    queryFn: () => getTools(),
   })
   return {
     ...query,
@@ -43,8 +45,19 @@ export function useAddTool() {
     },
     onError: (error) => {
       console.error('Error adding tool:', error)
-    }
+    },
   })
+}
+
+export function useToolsByCategory(category?: string) {
+  const query = useQuery({
+    queryKey: ['tools', category],
+    queryFn: () => getToolsByCategory(category),
+    enabled: !!category,
+  })
+  return {
+    ...query,
+  }
 }
 
 // Hook for editing a tool
@@ -52,14 +65,14 @@ export function useEditTool() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ id, updates }: { id: number, updates: Partial<Tools> }) =>
+    mutationFn: ({ id, updates }: { id: number; updates: Partial<Tools> }) =>
       editTool(id, updates),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tools'] })
     },
     onError: (error) => {
       console.error('Error editing tool:', error)
-    }
+    },
   })
 }
 
@@ -74,6 +87,6 @@ export function useDeleteTool() {
     },
     onError: (error) => {
       console.error('Error deleting tool:', error)
-    }
+    },
   })
 }
