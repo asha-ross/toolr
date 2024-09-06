@@ -97,14 +97,15 @@ export async function deleteTool(id: number): Promise<void> {
 }
 
 export async function checkUserExists(auth_id: string, token: string) {
-  const response = await fetch(`/api/v1/users/${auth_id}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-
-  return response.ok ? await response.json() : null
+  try{
+  const response = await request
+  .get(`/api/v1/users/${auth_id}`)
+  .set('Authorization', `Bearer ${token}`) 
+  return response.body
+} catch (error) {
+  console.log('Error finding user', error)
+  throw error
+}
 }
 
 export async function addUser(user: Users, token: string) {
