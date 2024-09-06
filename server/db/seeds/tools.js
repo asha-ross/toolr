@@ -27,7 +27,37 @@ export async function seed(knex) {
       description:
         'Heavy-duty chainsaw for cutting firewood or clearing brush.',
       image: 'path/to/chainsaw.jpg',
-      category: 'Outdoor Tools',
+      category: 'Large Power Tools',
+    },
+    {
+      tool_name: 'Gardening Trowel',
+      tool_owner: 4, // Replace with user ID
+      description: 'A sturdy trowel for planting, weeding, and transplanting.',
+      image: 'path/to/trowel.jpg',
+      category: 'Yard & Garden',
+    },
+    {
+      tool_name: 'Pruning Shears',
+      tool_owner: 5, // Replace with user ID
+      description:
+        'High-quality pruning shears for trimming branches and shrubs.',
+      image: 'path/to/pruning-shears.jpg',
+      category: 'Yard & Garden',
+    },
+    {
+      tool_name: 'Wheelbarrow',
+      tool_owner: 6, // Replace with user ID
+      description:
+        'A sturdy wheelbarrow for transporting gardening supplies and materials.',
+      image: 'path/to/wheelbarrow.jpg',
+      category: 'Yard & Garden',
+    },
+    {
+      tool_name: 'Jigsaw',
+      tool_owner: 14, // Replace with user ID
+      description: 'A precise jigsaw for cutting curves and intricate shapes.',
+      image: 'path/to/jigsaw.jpg',
+      category: 'Small Power Tools',
     },
   ])
 }
