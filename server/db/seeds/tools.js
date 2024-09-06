@@ -11,7 +11,7 @@ export async function seed(knex) {
       tool_owner_id: 1,
       description:
         'A powerful electric drill perfect for a variety of DIY projects.',
-      image: 'path/to/drill.jpg',
+      image: '/images/Bosch Brushless 18V Hammer Drill.png',
       availability: true,
       category: 'Small Power Tools',
     },
@@ -20,7 +20,7 @@ export async function seed(knex) {
       tool_owner: 'Chakotay', // Replace with user name
       tool_owner_id: 2,
       description: 'Battery-powered lawnmower for keeping your lawn tidy.',
-      image: 'path/to/lawnmower.jpg',
+      image: '/images/Ozito 1200W 305mm Lawn Mower.png',
       availability: false, // Set availability to false for a rented tool
       category: 'Yard & Garden',
     },
@@ -30,7 +30,7 @@ export async function seed(knex) {
       tool_owner_id: 3,
       description:
         'A great all-rounder, this powerful 45cc chainsaw with 18" (450mm) bar and Oregon chain is ideal for pruning and felling small trees.',
-      image: 'path/to/chainsaw.jpg',
+      image: '/images/Morrison 45cc Petrol Chainsaw.png',
       availability: false,
       category: 'Outdoor Tools',
     },
@@ -39,7 +39,7 @@ export async function seed(knex) {
       tool_owner: "Paris",
       tool_owner_id: 4,
       description: "Lightweight impact driver with high torque for tough tasks.",
-      image: "path/to/impactdriver.jpg",
+      image: "/images/Makita 18V LXT Cordless Impact Driver.png",
       availability: true,
       category: "Small Power Tools"
     },
@@ -48,7 +48,7 @@ export async function seed(knex) {
       tool_owner: "Kim",
       tool_owner_id: 5,
       description: "Compact and easy to use, ideal for cutting branches and logs.",
-      image: "path/to/electricchainsaw.jpg",
+      image: "/images/Ryobi 2000W Electric Chainsaw.png",
       availability: true,
       category: "Outdoor Tools"
     },
@@ -57,7 +57,7 @@ export async function seed(knex) {
       tool_owner: "Tuvok",
       tool_owner_id: 6,
       description: "Powerful circular saw for fast and accurate cutting.",
-      image: "path/to/circularsaw.jpg",
+      image: "/images/DeWalt 18V Cordless Circular Saw.png",
       availability: false,
       category: "Small Power Tools"
     },
@@ -66,7 +66,7 @@ export async function seed(knex) {
       tool_owner: "Neelix",
       tool_owner_id: 7,
       description: "A versatile grinder for cutting, grinding, and polishing tasks.",
-      image: "path/to/anglegrinder.jpg",
+      image: "/images/Ozito 750W Angle Grinder.png",
       availability: true,
       category: "Small Power Tools"
     },
@@ -75,7 +75,7 @@ export async function seed(knex) {
       tool_owner: "The Doctor",
       tool_owner_id: 8,
       description: "Lightweight and efficient blower for clearing leaves and debris.",
-      image: "path/to/leafblower.jpg",
+      image: "/images/Worx 20V Cordless Leaf Blower.png",
       availability: false,
       category: "Yard & Garden"
     },
@@ -84,7 +84,7 @@ export async function seed(knex) {
       tool_owner: "Janeway",
       tool_owner_id: 1,
       description: "Powerful petrol-powered brush cutter for tough garden tasks.",
-      image: "path/to/brushcutter.jpg",
+      image: "/images/Stihl FS 55 Petrol Brush Cutter.png",
       availability: true,
       category: "Outdoor Tools"
     },
@@ -93,7 +93,7 @@ export async function seed(knex) {
       tool_owner: "Chakotay",
       tool_owner_id: 2,
       description: "Perfect for maintaining hedges with precision and ease.",
-      image: "path/to/hedgetrimmer.jpg",
+      image: "/images/Bosch Advanced Hedge Trimmer.png",
       availability: false,
       category: "Yard & Garden"
     },
@@ -102,7 +102,7 @@ export async function seed(knex) {
       tool_owner: "Seven of Nine",
       tool_owner_id: 3,
       description: "Ideal for smooth planing and trimming edges of wooden surfaces.",
-      image: "path/to/planer.jpg",
+      image: "/images/Ozito 600W Corded Electric Planer.png",
       availability: true,
       category: "Carpentry Tools"
     },
@@ -111,7 +111,7 @@ export async function seed(knex) {
       tool_owner: "Paris",
       tool_owner_id: 4,
       description: "Efficient high-pressure washer for cleaning cars, driveways, and patios.",
-      image: "path/to/pressurewasher.jpg",
+      image: "/images/Karcher High-Pressure Washer.png",
       availability: false,
       category: "Cleaning Tools"
     },
@@ -120,7 +120,7 @@ export async function seed(knex) {
       tool_owner: "Kim",
       tool_owner_id: 5,
       description: "Portable jigsaw for intricate cutting tasks.",
-      image: "path/to/jigsaw.jpg",
+      image: "/images/Makita Cordless Jigsaw.png",
       availability: true,
       category: "Carpentry Tools"
     },
@@ -129,7 +129,7 @@ export async function seed(knex) {
       tool_owner: "Tuvok",
       tool_owner_id: 6,
       description: "Reliable drill for a variety of DIY tasks around the house.",
-      image: "path/to/electricdrill.jpg",
+      image: "/images/Stanley 500W Corded Electric Drill.png",
       availability: true,
       category: "Small Power Tools"
     },
@@ -138,7 +138,7 @@ export async function seed(knex) {
       tool_owner: "Neelix",
       tool_owner_id: 7,
       description: "Powerful line trimmer for trimming grass and light brush.",
-      image: "path/to/linetrimmer.jpg",
+      image: "/images/Ozito 1800W Electric Line Trimmer.png",
       availability: false,
       category: "Yard & Garden"
     },
@@ -147,7 +147,7 @@ export async function seed(knex) {
       tool_owner: "The Doctor",
       tool_owner_id: 8,
       description: "Versatile tool for sanding, cutting, and grinding.",
-      image: "path/to/multitool.jpg",
+      image: "/images/Bosch 18V Cordless Multi-Tool.png",
       availability: true,
       category: "Multi-Tools"
     },
@@ -156,7 +156,7 @@ export async function seed(knex) {
       tool_owner: "Janeway",
       tool_owner_id: 1,
       description: "Durable hammer drill for drilling into concrete and masonry.",
-      image: "path/to/hammerdrill.jpg",
+      image: "/images/DeWalt 240V Corded Hammer Drill.png",
       availability: false,
       category: "Heavy Power Tools"
     },
@@ -165,7 +165,7 @@ export async function seed(knex) {
       tool_owner: "Chakotay",
       tool_owner_id: 2,
       description: "Compact chainsaw suitable for felling small trees and cutting firewood.",
-      image: "path/to/petrolchainsaw.jpg",
+      image: "/images/Stihl MS 180 Petrol Chainsaw.png",
       availability: true,
       category: "Outdoor Tools"
     },
@@ -174,7 +174,7 @@ export async function seed(knex) {
       tool_owner: "Seven of Nine",
       tool_owner_id: 3,
       description: "Efficient cordless lawnmower for medium-sized lawns.",
-      image: "path/to/cordlesslawnmower.jpg",
+      image: "/images/Ryobi 18V Cordless Lawnmower.png",
       availability: true,
       category: "Yard & Garden"
     },
@@ -183,7 +183,7 @@ export async function seed(knex) {
       tool_owner: "Paris",
       tool_owner_id: 4,
       description: "Cordless angle grinder for cutting and grinding in tight spaces.",
-      image: "path/to/cordlessgrinder.jpg",
+      image: "/images/Makita 18V Cordless Angle Grinder.png",
       availability: false,
       category: "Small Power Tools"
     },
@@ -192,7 +192,7 @@ export async function seed(knex) {
       tool_owner: "Kim",
       tool_owner_id: 5,
       description: "Cordless hedge trimmer for shaping and maintaining your hedges.",
-      image: "path/to/cordlesshedgetrimmer.jpg",
+      image: "/images/Black & Decker Cordless Hedge Trimmer.png",
       availability: true,
       category: "Yard & Garden"
     },
@@ -201,7 +201,7 @@ export async function seed(knex) {
       tool_owner: "Tuvok",
       tool_owner_id: 6,
       description: "Lightweight and powerful blower for clearing leaves and debris.",
-      image: "path/to/cordlessblower.jpg",
+      image: "/images/Ryobi 18V One+ Cordless Blower.png",
       availability: true,
       category: "Yard & Garden"
     },
@@ -210,7 +210,7 @@ export async function seed(knex) {
       tool_owner: "Neelix",
       tool_owner_id: 7,
       description: "Heavy-duty rotary hammer drill for masonry and concrete work.",
-      image: "path/to/rotaryhammerdrill.jpg",
+      image: "/images/Bosch Rotary Hammer Drill.png",
       availability: false,
       category: "Heavy Power Tools"
     }
