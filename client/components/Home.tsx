@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getTools } from '../apis/tools'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
-import { addUser, checkUserExists } from '../apis/tools'
+import { addUser } from '../apis/tools'
 import { Tools } from '../../models/tools'
 
 export default function Home() {
@@ -28,23 +28,19 @@ export default function Home() {
         const fetchedToken = await getAccessTokenSilently()
         setToken(fetchedToken)
 
-        const userExists = await checkUserExists(
-          String(user?.sub),
-          fetchedToken,
-        )
-        if (!userExists) {
+        
           await addUser(
             {
-              auth_id: String(user?.sub),
+              auth_id: String(user?.sub?.split('|')[1]),
               username: String(user?.nickname),
               created_at: new Date(),
             },
             token,
           )
         }
-      })()
+      )()
     }
-  }, [user, getAccessTokenSilently, token])
+}, [user, getAccessTokenSilently, token])
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

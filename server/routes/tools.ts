@@ -17,7 +17,7 @@ const router = Router()
 
 //TODO: GET /api/v1/tools
 //Returns all tools, potentially with pagination?
-router.get('/', async (req, res) => {
+router.get('/tools', async (req, res) => {
   try {
     const tools = await db.getAllToolsDB()
 
@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
 
 //TODO: GET /api/v1/tools/:id
 //Returns a specific tool by id
-router.get('/:id', async (req, res, next) => {
+router.get('/tools/:id', async (req, res, next) => {
   try {
     const tool = await db.getToolByIdDB(Number(req.params.id))
     if (tool) {
