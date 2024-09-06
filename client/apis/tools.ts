@@ -6,11 +6,11 @@
 import request from 'superagent'
 import { Tools, NewTool, Users } from '../../models/tools'
 
-const rootUrl = '/api/v1/'
+const rootUrl = '/api/v1'
 
 export async function getTools(): Promise<Tools[]> {
   try {
-    const res = await request.get(rootUrl + 'tools')
+    const res = await request.get(`${rootUrl}/tools`)
     console.log('API response:', res)
     if (Array.isArray(res.body)) {
       return res.body
@@ -22,6 +22,19 @@ export async function getTools(): Promise<Tools[]> {
     console.error('Error fetching tools:', error)
     return []
   }
+}
+
+// get tool by id
+export async function getToolById(id: number): Promise<Tools> {
+  try {
+    const res = await request.get(`${rootUrl}/tools/${id}`)
+    console.log('Single tool response:', res)
+    return res.body
+  } catch (error) {
+    console.error('Error fetching tools:', error)
+    throw error
+  }
+  
 }
 
 //TODO: this isn't returning the existing tools yet, but I may just need to update db and migrate again.

@@ -65,9 +65,16 @@ export default function Home() {
     enabled: false,
   })
 
-  const handleShowAllTools = () => {
-    refetchTools()
-  }
+
+/* ╔═════════════╗ */
+/* ║   Andrew    ║ */
+/* ╚═════════════╝ */
+  // Removed the button function to display tools on home screen. New component added instead
+
+
+  // const handleShowAllTools = () => {
+  //   refetchTools()
+  // }
 
   // const handleSubmit = (e: React.FormEvent) => {
   //   e.preventDefault()
@@ -93,14 +100,14 @@ export default function Home() {
         </button>
       </form>
       {error && <p className="error-message">{error}</p>}
-
+      <Link to="/productslist">
       <button
-        onClick={handleShowAllTools}
         className="show-all-button"
         disabled={isLoadingTools}
       >
         {isLoadingTools ? 'Loading tools...' : 'Show all tools'}
       </button>
+      </Link>
       {toolsError && <p className="error-message">{toolsError.message}</p>}
       {tools && Array.isArray(tools) && tools.length > 0 && (
         <ul className="tools-list">

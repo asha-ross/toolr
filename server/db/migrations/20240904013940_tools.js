@@ -7,6 +7,7 @@ export async function up(knex) {
     table.increments('id').primary()
     table.string('tool_name').notNullable()
     table.string('tool_owner')
+    table.integer('tool_owner_id')
     table.text('description')
     table.string('image')
     table.boolean('availability').defaultTo(true)
