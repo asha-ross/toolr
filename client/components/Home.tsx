@@ -31,7 +31,7 @@ export default function Home() {
         
           await addUser(
             {
-              auth_id: String(user?.sub),
+              auth_id: String(user?.sub?.split('|')[1]),
               username: String(user?.nickname),
               created_at: new Date(),
             },
