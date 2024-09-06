@@ -11,6 +11,7 @@ export async function seed(knex) {
       description:
         'A powerful electric drill perfect for a variety of DIY projects.',
       image: 'path/to/drill.jpg',
+      category: 'Small Power Tools',
     },
     {
       tool_name: 'Lawnmower',
@@ -18,6 +19,7 @@ export async function seed(knex) {
       description: 'Gas-powered lawnmower for keeping your lawn tidy.',
       image: 'path/to/lawnmower.jpg',
       availability: false, // Set availability to false for a rented tool
+      category: 'Yard & Garden',
     },
     {
       tool_name: 'Chainsaw',
@@ -25,6 +27,7 @@ export async function seed(knex) {
       description:
         'Heavy-duty chainsaw for cutting firewood or clearing brush.',
       image: 'path/to/chainsaw.jpg',
+      category: 'Outdoor Tools',
     },
   ])
 }

@@ -10,8 +10,9 @@ export interface Tools {
   description: string
   image: string
   availability: boolean
+  category: string
   //user_rating: number
-  //cost: number  
+  //cost: number
   created_at: Date
 }
 
