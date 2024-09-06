@@ -39,6 +39,25 @@ export async function fetchTools(searchTerm: string = ''): Promise<Tools[]> {
   }
 }
 
+export async function getToolsByCategory(category?: string): Promise<Tools[]> {
+  try {
+    const url = category
+      ? `${rootUrl}tools?category=${category}`
+      : `${rootUrl}tools`
+    const res = await request.get(url)
+    console.log('API response:', res)
+    if (Array.isArray(res.body)) {
+      return res.body
+    } else {
+      console.error('Unexpected API response structure:', res.body)
+      return []
+    }
+  } catch (error) {
+    console.error('Error fetching tools by category:', error)
+    return []
+  }
+}
+
 // TODO: add addTool function
 // Use request.post() to send a POST request to rootUrl
 // Return the newly created tool from the response
