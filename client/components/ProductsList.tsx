@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Tools } from '../../models/tools'
 import { getTools } from '../apis/tools'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function GetAllProducts() {
   const {
@@ -13,6 +13,12 @@ export default function GetAllProducts() {
     queryKey: ['tools'],
     queryFn: getTools,
   })
+
+  useEffect(() => {
+    if (tools) {
+      setFilteredTools(tools)
+    }
+  }, [tools])
   
   const [filteredTools, setFilteredTools] = useState<Tools[] | undefined>(tools)
 
