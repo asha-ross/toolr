@@ -49,31 +49,39 @@ export default function Home() {
 
   // Had a crack at the search
 
-  const {
-    data: tools,
-  } = useQuery<Tools[], Error>({
+  const { data: tools } = useQuery<Tools[], Error>({
     queryKey: ['tools'],
     queryFn: getTools,
   })
 
   const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-
+    const value = e.target.value
+    setSearchTerm(value)
 
     const searchFilter = tools?.filter((tool) =>
-      tool.tool_name.toLowerCase().includes(value.toLowerCase())
-    );
+      tool.tool_name.toLowerCase().includes(value.toLowerCase()),
+    )
 
-    setSearchResults(searchFilter);
-  };
+    setSearchResults(searchFilter)
+  }
 
   const handleResultClick = (id: number) => {
     // Navigate to the specific tool's page using its id
-    navigate(`/api/v1/tools/${id}`);
-  };
+    navigate(`/api/v1/tools/${id}`)
+  }
 
+  const handleKeyPress = (e: any, id: number) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleResultClick(id)
+    }
+  }
 
+  /* ╔═════════════╗ */
+  /* ║   Andrew    ║ */
+  /* ╚═════════════╝ */
+
+  // commented out the below as I was having a play around with search
 
   // const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
   //   e.preventDefault()
@@ -91,7 +99,7 @@ export default function Home() {
   /* ║   Andrew    ║ */
   /* ╚═════════════╝ */
 
-    // Removed the button function to display tools on home screen. New component added instead
+  // Removed the button function to display tools on home screen. New component added instead
 
   // const {
   //   data: tools,
@@ -103,9 +111,6 @@ export default function Home() {
   //   queryFn: getTools,
   //   enabled: false,
   // })
-
-
-
 
   // const handleShowAllTools = () => {
   //   refetchTools()
@@ -131,22 +136,25 @@ export default function Home() {
           className="search-input"
         />
         {searchTerm && (
-        <ul>
-          {searchResults.map((item) => (
-            <li
-              key={item.id}
-              onClick={() => handleResultClick(item.id)} // Call handleResultClick with the id on click
-              style={{ cursor: 'pointer' }} // Add a pointer cursor for better UX
-            >
-              {item.tool_name}
-            </li>
-          ))}
-        </ul>
-      )}
+          <ul>
+            {searchResults.map((item) => (
+              <li
+                role="button"
+                key={item.id}
+                tabIndex={0}
+                onClick={() => handleResultClick(item.id)}
+                onKeyDown={(e) => handleKeyPress(e, item.id)}
+                style={{ cursor: 'pointer' }}
+              >
+                {item.tool_name}
+              </li>
+            ))}
+          </ul>
+        )}
       </form>
       <button type="submit" className="search-button" disabled={isLoading}>
-          {isLoading ? 'Searching' : 'Search'}
-        </button>
+        {isLoading ? 'Searching' : 'Search'}
+      </button>
       {error && <p className="error-message">{error}</p>}
       <Link to="/productslist">
         <button className="show-all-button">Show all tools</button>
