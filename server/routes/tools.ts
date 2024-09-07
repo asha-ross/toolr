@@ -45,28 +45,39 @@ router.get('/tools/:id', async (req, res, next) => {
 
 //TODO: POST /api/v1/tools
 //Add a new tool
-// router.post('/', async (req, res, next) => {
-//   if (!req.sub) {
-//     res.sendStatus(StatusCodes.UNAUTHORIZED)
-//     return
-//   }
+router.post('/tools', async (req, res) => {
 
-//   try {
-//     const { tool_owner, tool_name, description, availability, image } = req.body
-//     const id = await db.addTool({
-//       tool_owner,
-//       tool_name,
-//       description,
-//       availability,
-//       image,
-//     })
-//     res
-//       .setHeader('Location', `${req.baseUrl}/${id}`)
-//       .sendStatus(StatusCodes.CREATED)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
+  const { tool_owner, tool_name, description, availability, image } = req.body
+
+  console.log({ tool_owner, tool_name, description, availability, image })
+    try {
+      await db.addTool({
+      tool_owner,
+      tool_name,
+      description,
+      availability,
+      image,
+    })
+    res.sendStatus(StatusCodes.CREATED)
+  } catch (err) {
+    res.sendStatus(500)
+  }
+})
+
+
+
+router.post('/', async (req, res) => {
+  const newUser = req.body
+  console.log('the server side is working too', newUser)
+
+  try {
+    await db_users.addUser(newUser)
+    res.sendStatus(200)
+  } catch (error) {
+    console.log('add user error')
+    res.sendStatus(500)
+  }
+})
 
 //TODO: PUT /api/v1/tools/:id
 //Update an existing tool

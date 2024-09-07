@@ -6,10 +6,11 @@
 
 
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTools, useAddTool, useEditTool, useDeleteTool } from '../hooks/useTools'
 import { Tools } from '../../models/tools'
 import { Link } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const Profile = () => {
   // Fetch tools using the useTools hook
@@ -17,6 +18,37 @@ const Profile = () => {
   const addToolMutation = useAddTool()
   const editToolMutation = useEditTool()
   const deleteToolMutation = useDeleteTool()
+
+  const { user } = useAuth0()
+
+  console.log(user)
+
+  const [userTools, setUserTools] = useState<Tools[] | undefined>(tools)
+
+  const filterTools = () => {
+    if (!tools || !user) return
+    const filtered = tools.filter(tool => tool.tool_owner === user.nickname)
+    console.log(filtered)
+    setUserTools(filtered)
+  };
+
+  useEffect(() => {
+    filterTools()
+  }, [tools, user])
+
+
+    // state for modal pop up
+    const [isOpen, setIsOpen] = useState(false)
+
+    const openModal = () => {
+      setIsOpen(true);
+      console.log('modal open')
+    };
+
+    const closeModal = () => {
+      setIsOpen(false);
+      console.log('modal closed')
+    };
 
   // State for form data
   const [formData, setFormData] = useState<Partial<Tools>>({
@@ -86,7 +118,9 @@ const Profile = () => {
       <h1>Your Profile</h1>
 
       {/* Tool Form: Add/Edit */}
-      <div>
+      <button onClick={openModal}>Open Modal</button>
+      <dialog open={isOpen} onClose={closeModal} className={`modal-container ${isOpen ? 'open' : ''}`}>
+      <button onClick={closeModal} className='modal-close-button'>&times;</button>
         <h2>{editMode ? 'Edit Tool' : 'Add New Tool'}</h2>
         <input
           type="text"
@@ -94,6 +128,7 @@ const Profile = () => {
           value={formData.tool_name}
           onChange={handleChange}
           placeholder="Tool Name"
+          className='tool_name'
         />
         <input
           type="text"
@@ -101,12 +136,14 @@ const Profile = () => {
           value={formData.tool_owner}
           onChange={handleChange}
           placeholder="Tool Owner"
+          className='tool_owner'
         />
         <textarea
           name="description"
           value={formData.description}
           onChange={handleChange}
           placeholder="Description"
+          className='tool-description'
         />
         <input
           type="text"
@@ -114,6 +151,7 @@ const Profile = () => {
           value={formData.image}
           onChange={handleChange}
           placeholder="Image URL"
+          className='tool-image'
         />
         <label>
           Availability:
@@ -136,13 +174,15 @@ const Profile = () => {
           >
             Cancel
           </button>
+          
         )}
-      </div>
+        
+      </dialog>
 
       {/* Tool List */}
       <h2>Your Tools</h2>
       <ul>
-        {tools?.map((tool) => (
+        {userTools?.map((tool) => (
           <li key={tool.id}>
             <h3>{tool.tool_name}</h3>
             <p>Availability: {tool.availability ? 'Available' : 'Not Available'}</p>
