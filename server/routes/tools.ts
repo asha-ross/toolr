@@ -70,7 +70,7 @@ router.get('/tools/:id', async (req, res, next) => {
 
 //TODO: PUT /api/v1/tools/:id
 //Update an existing tool
-router.put('/:id', async (req, res) => {
+router.patch('/tools/:id', async (req, res) => {
   const { id } = req.params
   try {
     const updatedTool = await db.updateTool(Number(id), req.body)

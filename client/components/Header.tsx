@@ -2,19 +2,26 @@
 //Includes the "Categories" information
 
 import { Link } from 'react-router-dom'
-import logo from '../assets/toolr_logo.png'
 import Nav from './Nav'
 
 function Header() {
   return (
     <header className="header">
-      TOOLR
+      <div className='upper-header'>
+
       <div className="logo">
         <Link to="/">
-          <img src={logo} alt="TOOLR logo" />
+          <img src='/images/Toolr_Word_Logo.png' alt="TOOLR logo" />
         </Link>
       </div>
-      <nav>
+      <div className='button-container'>
+        <div className='sign-in-button'>
+          <Nav />
+        </div>
+        </div>
+      </div>
+      <nav className='nav-container'>
+        <div className='nav-options'>
         <ul>
           <li>
             <Link to="/categories">Categories</Link>
@@ -29,8 +36,6 @@ function Header() {
             <Link to="/help">Help</Link>
           </li>
         </ul>
-        <div>
-          <Nav />
         </div>
       </nav>
     </header>

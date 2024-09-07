@@ -12,7 +12,7 @@ export interface Tools {
   availability: boolean
   category: string
   //user_rating: number
-  //cost: number
+  price: string
   created_at: Date
 }
 

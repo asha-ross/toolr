@@ -3,6 +3,10 @@ html {
   background-size: cover;
 }
 
+/* ╔═══════════════╗ */
+/* ║   homepage    ║ */
+/* ╚═══════════════╝ */
+
 .home {
   display: flex;
   flex-direction: column;
@@ -39,8 +43,14 @@ html {
 .header {
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
+}
+
+.upper-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .header-top {
@@ -55,53 +65,137 @@ button {
   margin: 5px;
 }
 
-.header-top h1 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-right: 10px;
-}
-
 .logo {
-  width: 45px;
-  height: 45px;
+  width: 50%;
+  height: auto;
+  margin-left: 30px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .logo img {
-  width: 100%;
+  width: 300px;
   height: 100%;
   object-fit: contain;
 }
 
 nav {
+  display: flex;
+  flex-direction: row-reverse;
   width: 100%;
-  background-color: #4caf50;
-  padding: 5px;
   margin-bottom: 15px;
 }
 
-nav ul {
+.nav-options {
+  width:100%;
   display: flex;
-  font-family: 'Courier New', Courier, monospace;
+  align-items: center;
+  background-color: #1E9137 ;
   justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+
+nav ul {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   list-style-type: none;
   margin: 0;
   padding: 0;
+  
 }
 
 nav li {
   margin: 0 15px;
+  display: inline-block;
 }
 
 nav a {
   color: white;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 nav a:hover {
   text-decoration: underline;
 }
 
-.tool-container {
-  width: 80px; 
+.button-container {
+  width: 50%;
 }
+
+.sign-in-button {
+  margin-right: 30px;
+}
+
+.sign-in-name {
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  margin: 16px;
+  padding-top: 5px;
+}
+
+
+
+/* ╔════════════════════════╗ */
+/* ║   Product List Page    ║ */
+/* ╚════════════════════════╝ */
+
+.products-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.product-list-container {
+  width: 60%;
+}
+
+.product-listing {
+  display: flex;
+  background-color: white;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  justify-content: space-around;
+}
+
+.tool-container {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-top: 5px;
+  margin-bottom: 5px
+
+}
+
+
+/* ╔═══════════════════╗ */
+/* ║   Product Page    ║ */
+/* ╚═══════════════════╝ */
+
+.product-page-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  
+}
+
+.product-info {
+  width: 50%;
+  display: flex;  
+  background-color: white;
+
+}
+
+.product-image {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  
+}
+
+.tool-image {
+  padding: 5%;
+  width: 100%;
+  box-sizing: border-box;
+}
+

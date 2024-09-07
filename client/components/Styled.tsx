@@ -58,6 +58,16 @@ export const NavLink = styled(Link)`
   margin-right: 30px;
 `
 
+// button text
 export const NavButton = styled.button`
-  margin-right: 30px;
+    background-color: #1E9137 ; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
 `
