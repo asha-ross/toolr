@@ -19,25 +19,27 @@ export default function GetAllProducts() {
 
   return(
     <>
-      <h1>Page is working</h1>
+    <div className='products-container'>
+    <div className='product-list-container'>
       {tools && Array.isArray(tools) && tools.length > 0 && (
         <ul className="tools-list">
           {tools.map((tool: Tools) => (
-            <li key={tool.id}>
+            <li key={tool.id} className='product-listing'>
+              <img src={tool.image} alt={tool.tool_name} className='tool-container'/>
               <Link to={`/tools/${tool.id}`}>
               <h3>{tool.tool_name}</h3>
               </Link>
-              <p>{tool.description}</p>
               <p>{tool.tool_owner}</p>
-              <img src={tool.image} alt={tool.tool_name} className='tool-container'/>
               <p>
-                Available:{tool.availability}
+                Available:{tool.availability ? " Yes" : " No"}
                 
               </p>
             </li>
           ))}
         </ul>
       )}
+      </div>
+      </div>
     </>
   )
 }

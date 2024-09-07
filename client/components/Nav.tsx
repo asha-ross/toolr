@@ -22,7 +22,7 @@ function Nav() {
       <NavGroup>
         <IfAuthenticated>
           <NavButton onClick={handleSignOut}>Sign out</NavButton>
-          {user && <p>Signed in as: {user?.nickname}</p>}
+          {user && <p className='sign-in-name'>Signed in as: {user?.nickname}</p>}
         </IfAuthenticated>
         <IfNotAuthenticated>
           <NavButton onClick={handleSignIn}>Sign in</NavButton>

@@ -133,3 +133,15 @@ export async function addUser(user: Users, token: string) {
     throw error
   }
 }
+
+export async function changeRentStatus(availability: boolean, id: number) {
+  console.log('sending patch request with: ', {availability})
+  try {
+    const res = await request.patch(`${rootUrl}/tools/${id}`).send({availability})
+    return res.body
+
+  } catch (error) {
+    console.error('Error updating rental status:', error)
+    throw error
+  }
+}

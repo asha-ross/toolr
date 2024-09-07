@@ -5,12 +5,12 @@
 //Simple design, should have a logo or style that is distinguishable as "toolr" (ie: dark, green, probably a tool icon)
 
 import React, { useState, useEffect } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { getTools } from '../apis/tools'
+// import { useQuery } from '@tanstack/react-query'
+// import { getTools } from '../apis/tools'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import { addUser } from '../apis/tools'
-import { Tools } from '../../models/tools'
+// import { Tools } from '../../models/tools'
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -28,19 +28,17 @@ export default function Home() {
         const fetchedToken = await getAccessTokenSilently()
         setToken(fetchedToken)
 
-        
-          await addUser(
-            {
-              auth_id: String(user?.sub?.split('|')[1]),
-              username: String(user?.nickname),
-              created_at: new Date(),
-            },
-            token,
-          )
-        }
-      )()
+        await addUser(
+          {
+            auth_id: String(user?.sub?.split('|')[1]),
+            username: String(user?.nickname),
+            created_at: new Date(),
+          },
+          token,
+        )
+      })()
     }
-}, [user, getAccessTokenSilently, token])
+  }, [user, getAccessTokenSilently, token])
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -54,22 +52,24 @@ export default function Home() {
     setIsLoading(false)
   }
 
-  const {
-    data: tools,
-    isLoading: isLoadingTools,
-    error: toolsError,
-    refetch: refetchTools,
-  } = useQuery({
-    queryKey: ['allTools'],
-    queryFn: getTools,
-    enabled: false,
-  })
+  /* ╔═════════════╗ */
+  /* ║   Andrew    ║ */
+  /* ╚═════════════╝ */
+
+    // Removed the button function to display tools on home screen. New component added instead
+
+  // const {
+  //   data: tools,
+  //   isLoading: isLoadingTools,
+  //   error: toolsError,
+  //   refetch: refetchTools,
+  // } = useQuery({
+  //   queryKey: ['allTools'],
+  //   queryFn: getTools,
+  //   enabled: false,
+  // })
 
 
-/* ╔═════════════╗ */
-/* ║   Andrew    ║ */
-/* ╚═════════════╝ */
-  // Removed the button function to display tools on home screen. New component added instead
 
 
   // const handleShowAllTools = () => {
@@ -101,28 +101,9 @@ export default function Home() {
       </form>
       {error && <p className="error-message">{error}</p>}
       <Link to="/productslist">
-      <button
-        className="show-all-button"
-        disabled={isLoadingTools}
-      >
-        {isLoadingTools ? 'Loading tools...' : 'Show all tools'}
-      </button>
+        <button className="show-all-button">Show all tools</button>
       </Link>
-      {toolsError && <p className="error-message">{toolsError.message}</p>}
-      {tools && Array.isArray(tools) && tools.length > 0 && (
-        <ul className="tools-list">
-          {tools.map((tool: Tools) => (
-            <li key={tool.id}>
-              <h3>{tool.tool_name}</h3>
-              <p>{tool.description}</p>
-              <p>
-                Availability:{' '}
-                {tool.availability ? 'Available' : 'Not Available'}
-              </p>
-            </li>
-          ))}
-        </ul>
-      )}
+
       <Link to="/tool-finder" className="helper-link">
         Not sure where to start? Click here for our ToolR assistant
       </Link>

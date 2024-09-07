@@ -14,6 +14,7 @@ export async function seed(knex) {
       image: '/images/Bosch Brushless 18V Hammer Drill.png',
       availability: true,
       category: 'Small Power Tools',
+      price: '$10'
     },
     {
       tool_name: 'Ozito 1200W 305mm Lawn Mower',
@@ -23,6 +24,7 @@ export async function seed(knex) {
       image: '/images/Ozito 1200W 305mm Lawn Mower.png',
       availability: false, // Set availability to false for a rented tool
       category: 'Yard & Garden',
+      price: '$10'
     },
     {
       tool_name: 'Morrison 45cc Petrol Chainsaw',
@@ -33,6 +35,7 @@ export async function seed(knex) {
       image: '/images/Morrison 45cc Petrol Chainsaw.png',
       availability: false,
       category: 'Outdoor Tools',
+      price: '$10'
     },
     {
       tool_name: "Makita 18V LXT Cordless Impact Driver",
@@ -41,7 +44,8 @@ export async function seed(knex) {
       description: "Lightweight impact driver with high torque for tough tasks.",
       image: "/images/Makita 18V LXT Cordless Impact Driver.png",
       availability: true,
-      category: "Small Power Tools"
+      category: "Small Power Tools",
+      price: '$10'
     },
     {
       tool_name: "Ryobi 2000W Electric Chainsaw",
@@ -50,7 +54,8 @@ export async function seed(knex) {
       description: "Compact and easy to use, ideal for cutting branches and logs.",
       image: "/images/Ryobi 2000W Electric Chainsaw.png",
       availability: true,
-      category: "Outdoor Tools"
+      category: "Outdoor Tools",
+      price: '$10'
     },
     {
       tool_name: "DeWalt 18V Cordless Circular Saw",
@@ -59,7 +64,8 @@ export async function seed(knex) {
       description: "Powerful circular saw for fast and accurate cutting.",
       image: "/images/DeWalt 18V Cordless Circular Saw.png",
       availability: false,
-      category: "Small Power Tools"
+      category: "Small Power Tools",
+      price: '$10'
     },
     {
       tool_name: "Ozito 750W Angle Grinder",
@@ -68,7 +74,8 @@ export async function seed(knex) {
       description: "A versatile grinder for cutting, grinding, and polishing tasks.",
       image: "/images/Ozito 750W Angle Grinder.png",
       availability: true,
-      category: "Small Power Tools"
+      category: "Small Power Tools",
+      price: '$10'
     },
     {
       tool_name: "Worx 20V Cordless Leaf Blower",
@@ -77,7 +84,8 @@ export async function seed(knex) {
       description: "Lightweight and efficient blower for clearing leaves and debris.",
       image: "/images/Worx 20V Cordless Leaf Blower.png",
       availability: false,
-      category: "Yard & Garden"
+      category: "Yard & Garden",
+      price: '$10'
     },
     {
       tool_name: "Stihl FS 55 Petrol Brush Cutter",
@@ -86,7 +94,8 @@ export async function seed(knex) {
       description: "Powerful petrol-powered brush cutter for tough garden tasks.",
       image: "/images/Stihl FS 55 Petrol Brush Cutter.png",
       availability: true,
-      category: "Outdoor Tools"
+      category: "Outdoor Tools",
+      price: '$10'
     },
     {
       tool_name: "Bosch Advanced Hedge Trimmer",
@@ -95,7 +104,8 @@ export async function seed(knex) {
       description: "Perfect for maintaining hedges with precision and ease.",
       image: "/images/Bosch Advanced Hedge Trimmer.png",
       availability: false,
-      category: "Yard & Garden"
+      category: "Yard & Garden",
+      price: '$10'
     },
     {
       tool_name: "Ozito 600W Corded Electric Planer",
@@ -104,7 +114,8 @@ export async function seed(knex) {
       description: "Ideal for smooth planing and trimming edges of wooden surfaces.",
       image: "/images/Ozito 600W Corded Electric Planer.png",
       availability: true,
-      category: "Carpentry Tools"
+      category: "Carpentry Tools",
+      price: '$10'
     },
     {
       tool_name: "Karcher High-Pressure Washer",
@@ -113,7 +124,8 @@ export async function seed(knex) {
       description: "Efficient high-pressure washer for cleaning cars, driveways, and patios.",
       image: "/images/Karcher High-Pressure Washer.png",
       availability: false,
-      category: "Cleaning Tools"
+      category: "Cleaning Tools",
+      price: '$10'
     },
     {
       tool_name: "Makita Cordless Jigsaw",
@@ -122,7 +134,8 @@ export async function seed(knex) {
       description: "Portable jigsaw for intricate cutting tasks.",
       image: "/images/Makita Cordless Jigsaw.png",
       availability: true,
-      category: "Carpentry Tools"
+      category: "Carpentry Tools",
+      price: '$10'
     },
     {
       tool_name: "Stanley 500W Corded Electric Drill",
@@ -131,7 +144,8 @@ export async function seed(knex) {
       description: "Reliable drill for a variety of DIY tasks around the house.",
       image: "/images/Stanley 500W Corded Electric Drill.png",
       availability: true,
-      category: "Small Power Tools"
+      category: "Small Power Tools",
+      price: '$10'
     },
     {
       tool_name: "Ozito 1800W Electric Line Trimmer",
@@ -140,7 +154,8 @@ export async function seed(knex) {
       description: "Powerful line trimmer for trimming grass and light brush.",
       image: "/images/Ozito 1800W Electric Line Trimmer.png",
       availability: false,
-      category: "Yard & Garden"
+      category: "Yard & Garden",
+      price: '$10'
     },
     {
       tool_name: "Bosch 18V Cordless Multi-Tool",
@@ -149,7 +164,8 @@ export async function seed(knex) {
       description: "Versatile tool for sanding, cutting, and grinding.",
       image: "/images/Bosch 18V Cordless Multi-Tool.png",
       availability: true,
-      category: "Multi-Tools"
+      category: "Multi-Tools",
+      price: '$10'
     },
     {
       tool_name: "DeWalt 240V Corded Hammer Drill",
@@ -158,7 +174,8 @@ export async function seed(knex) {
       description: "Durable hammer drill for drilling into concrete and masonry.",
       image: "/images/DeWalt 240V Corded Hammer Drill.png",
       availability: false,
-      category: "Heavy Power Tools"
+      category: "Heavy Power Tools",
+      price: '$10'
     },
     {
       tool_name: "Stihl MS 180 Petrol Chainsaw",
@@ -167,7 +184,8 @@ export async function seed(knex) {
       description: "Compact chainsaw suitable for felling small trees and cutting firewood.",
       image: "/images/Stihl MS 180 Petrol Chainsaw.png",
       availability: true,
-      category: "Outdoor Tools"
+      category: "Outdoor Tools",
+      price: '$10'
     },
     {
       tool_name: "Ryobi 18V Cordless Lawnmower",
@@ -176,7 +194,8 @@ export async function seed(knex) {
       description: "Efficient cordless lawnmower for medium-sized lawns.",
       image: "/images/Ryobi 18V Cordless Lawnmower.png",
       availability: true,
-      category: "Yard & Garden"
+      category: "Yard & Garden",
+      price: '$10'
     },
     {
       tool_name: "Makita 18V Cordless Angle Grinder",
@@ -185,7 +204,8 @@ export async function seed(knex) {
       description: "Cordless angle grinder for cutting and grinding in tight spaces.",
       image: "/images/Makita 18V Cordless Angle Grinder.png",
       availability: false,
-      category: "Small Power Tools"
+      category: "Small Power Tools",
+      price: '$10'
     },
     {
       tool_name: "Black & Decker Cordless Hedge Trimmer",
@@ -194,7 +214,8 @@ export async function seed(knex) {
       description: "Cordless hedge trimmer for shaping and maintaining your hedges.",
       image: "/images/Black & Decker Cordless Hedge Trimmer.png",
       availability: true,
-      category: "Yard & Garden"
+      category: "Yard & Garden",
+      price: '$10'
     },
     {
       tool_name: "Ryobi 18V One+ Cordless Blower",
@@ -203,7 +224,8 @@ export async function seed(knex) {
       description: "Lightweight and powerful blower for clearing leaves and debris.",
       image: "/images/Ryobi 18V One+ Cordless Blower.png",
       availability: true,
-      category: "Yard & Garden"
+      category: "Yard & Garden",
+      price: '$10'
     },
     {
       tool_name: "Bosch Rotary Hammer Drill",
@@ -212,7 +234,8 @@ export async function seed(knex) {
       description: "Heavy-duty rotary hammer drill for masonry and concrete work.",
       image: "/images/Bosch Rotary Hammer Drill.png",
       availability: false,
-      category: "Heavy Power Tools"
+      category: "Heavy Power Tools",
+      price: '$10'
     }
     
   ])
