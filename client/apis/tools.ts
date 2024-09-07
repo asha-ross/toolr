@@ -77,7 +77,7 @@ export async function getToolsByCategory(category?: string): Promise<Tools[]> {
 
 export async function addTool(tool: NewTool): Promise<Tools> {
   return request
-    .post(rootUrl + 'tools')
+    .post(`${rootUrl}/tools`)
     .send(tool)
     .then((res) => {
       return res.body // Assuming the newly created tool is returned in the response body

@@ -242,3 +242,49 @@ nav a:hover {
   padding-bottom: 10px;
   padding-left: 20px
 }
+
+
+/* ╔═══════════════════╗ */
+/* ║   Profile Page    ║ */
+/* ╚═══════════════════╝ */
+
+.modal-container {
+  display: none; /* Hidden by default */
+}
+
+.modal-container.open {
+  display: flex;
+  flex-direction: column;
+  background-color: #1E9137;
+  border: solid 5px white;
+  border-radius: 25px;
+  color: white;
+  width: 500px;
+}
+
+.tool_name, .tool_owner, .tool-description, .tool-image {
+  margin-top: 5px;
+  margin-bottom: 5px
+}
+
+.modal-close-button {
+  background-color: transparent;
+  border: none;
+  font-size: 24px; /* Adjust the size of the 'X' */
+  font-weight: bold;
+  cursor: pointer;
+  color: white; /* Button text color */
+  padding: 0 10px;
+  outline: none;
+  transition: color 0.3s ease;
+  align-self: flex-end;
+}
+
+.modal-close-button:hover {
+  color: #e74c3c; /* Change color on hover */
+}
+
+.modal-close-button:focus {
+  outline: 2px solid #e74c3c; /* Add a focus outline for accessibility */
+  outline-offset: 2px;
+}
