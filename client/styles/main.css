@@ -61,9 +61,7 @@ html {
   padding: 5px 0;
 }
 
-button {
-  margin: 5px;
-}
+
 
 .logo {
   width: 50%;
@@ -199,3 +197,48 @@ nav a:hover {
   box-sizing: border-box;
 }
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #1E9137;
+  min-width: 100px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1;
+  width: 100%;
+  flex-direction: column;
+  left: 0;
+  text-align: left;
+}
+
+.dropdown-content button:hover {
+  background-color: #145428;
+  color: white
+  }
+  
+
+.dropdown:hover .dropdown-content {
+  display: flex;
+}
+
+.dropbtn {
+  padding: 1rem;
+  height: min-content;
+  background-color: #1E9137;
+  border: 3px solid #1E9137;
+  color: white;
+  font-size: 2rem;
+  border-radius: 30px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.categoryButton {
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px
+}
