@@ -104,7 +104,7 @@ export async function editTool(
 // // // Use request.delete() to send a DELETE request to `${rootUrl}/${id}`
 // // Return success message "tool deleted"
 export async function deleteTool(id: number): Promise<void> {
-  return request.delete(`${rootUrl}tools/${id}`).then(() => {
+  return request.delete(`${rootUrl}/tools/${id}`).then(() => {
     return
   })
 }

@@ -101,7 +101,7 @@ router.patch('/tools/:id', async (req, res) => {
 //TODO: DELETE /api/v1/tools/:id
 //Delete a tool
 
-router.delete('/:id', async (req, res) => {
+router.delete('/tools/:id', async (req, res) => {
   const { id } = req.params
   try {
     await db.deleteTool(Number(id))

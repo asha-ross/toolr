@@ -21,21 +21,17 @@ const Profile = () => {
 
   const { user } = useAuth0()
 
-  console.log(user)
-
   const [userTools, setUserTools] = useState<Tools[] | undefined>(tools)
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const filterTools = () => {
-    if (!tools || !user) return
-    const filtered = tools.filter(tool => tool.tool_owner === user.nickname)
-    console.log(filtered)
-    setUserTools(filtered)
-  };
-
   useEffect(() => {
+    const filterTools = () => {
+      if (!tools || !user) return
+      const filtered = tools.filter(tool => tool.tool_owner === user.nickname)
+      setUserTools(filtered)
+    };
+  
     filterTools()
-  }, [filterTools, tools, user])
+  }, [tools, user])
 
 
     // state for modal pop up
