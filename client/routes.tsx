@@ -8,6 +8,7 @@ import Profile from './components/Profile'
 import Products from './components/Products.tsx'
 import ProductsList from './components/ProductsList.tsx';
 import ProductPage from './components/ProductPage.tsx'
+import AboutToolr from './components/AboutToolr.tsx'
 <Route path="products" element={<Products />} />
 
 export default createRoutesFromElements(
@@ -17,5 +18,6 @@ export default createRoutesFromElements(
     <Route path="products" element={<Products />} />
     <Route path="productslist" element={<ProductsList />} />
     <Route path="tools/:id" element={<ProductPage />} />
+    <Route path="about" element={<AboutToolr />} />
   </Route>,
 )
