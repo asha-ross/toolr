@@ -11,6 +11,7 @@ import { Router } from 'express'
 
 import * as db from '../db/functions/tools.ts'
 import * as db_users from '../db/functions/users.ts'
+import * as db_rentals from '../db/functions/transactions.ts'
 import { StatusCodes } from 'http-status-codes'
 // import checkJwt, { JwtRequest } from '../auth0.ts'
 const router = Router()
@@ -46,12 +47,11 @@ router.get('/tools/:id', async (req, res, next) => {
 //TODO: POST /api/v1/tools
 //Add a new tool
 router.post('/tools', async (req, res) => {
-
   const { tool_owner, tool_name, description, availability, image } = req.body
 
   console.log({ tool_owner, tool_name, description, availability, image })
-    try {
-      await db.addTool({
+  try {
+    await db.addTool({
       tool_owner,
       tool_name,
       description,
@@ -63,8 +63,6 @@ router.post('/tools', async (req, res) => {
     res.sendStatus(500)
   }
 })
-
-
 
 router.post('/', async (req, res) => {
   const newUser = req.body
@@ -158,6 +156,20 @@ router.get('/api/v1/users/:auth_id', async (req, res) => {
     res.status(200).json(user)
   } else {
     res.status(404).json({ message: 'User not found' })
+  }
+})
+
+//get existing rentals
+router.get('/rentals/:userId', async (req, res) => {
+  const userId = Number(req.params.userId)
+  try {
+    const rentals = await db_rentals.getRentalsByBorrower(userId)
+    res.status(StatusCodes.OK).json(rentals)
+  } catch (error) {
+    console.error('Error fetching rentals:', error)
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error retrieving rentals' })
   }
 })
 

@@ -20,8 +20,9 @@ import {
   editTool,
   deleteTool,
   getToolsByCategory,
+  getRentals,
 } from '../apis/tools'
-import { Tools } from '../../models/tools'
+import { Tools, Rental } from '../../models/tools'
 
 // Hook to fetch all tools
 export function useTools() {
@@ -88,5 +89,14 @@ export function useDeleteTool() {
     onError: (error) => {
       console.error('Error deleting tool:', error)
     },
+  })
+}
+
+//hook for getting Rentals
+export function useRentals(userId: number) {
+  return useQuery<Rental[], Error>({
+    queryKey: ['rentals', userId],
+    queryFn: () => getRentals(userId),
+    enabled: userId > 0,
   })
 }

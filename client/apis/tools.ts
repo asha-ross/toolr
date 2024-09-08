@@ -4,7 +4,7 @@
 //import models/interfaces for tools, users etc
 
 import request from 'superagent'
-import { Tools, NewTool, Users } from '../../models/tools'
+import { Tools, NewTool, Users, Rental } from '../../models/tools'
 
 const rootUrl = '/api/v1'
 
@@ -34,7 +34,6 @@ export async function getToolById(id: number): Promise<Tools> {
     console.error('Error fetching tools:', error)
     throw error
   }
-  
 }
 
 //TODO: this isn't returning the existing tools yet, but I may just need to update db and migrate again.
@@ -113,7 +112,7 @@ export async function deleteTool(id: number): Promise<void> {
 //   try{
 //   const response = await request
 //   .get(`/api/v1/users/${auth_id}`)
-//   .set('Authorization', `Bearer ${token}`) 
+//   .set('Authorization', `Bearer ${token}`)
 //   return response.body
 // } catch (error) {
 //   console.log('Error finding user', error)
@@ -135,13 +134,24 @@ export async function addUser(user: Users, token: string) {
 }
 
 export async function changeRentStatus(availability: boolean, id: number) {
-  console.log('sending patch request with: ', {availability})
+  console.log('sending patch request with: ', { availability })
   try {
-    const res = await request.patch(`${rootUrl}/tools/${id}`).send({availability})
+    const res = await request
+      .patch(`${rootUrl}/tools/${id}`)
+      .send({ availability })
     return res.body
-
   } catch (error) {
     console.error('Error updating rental status:', error)
+    throw error
+  }
+}
+
+export async function getRentals(userId: number): Promise<Rental[]> {
+  try {
+    const res = await request.get(`${rootUrl}/rentals/${userId}`)
+    return res.body
+  } catch (error) {
+    console.error('Error fetching rentals:', error)
     throw error
   }
 }

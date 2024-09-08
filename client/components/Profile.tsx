@@ -4,10 +4,14 @@
 //Use Trademe as inspiration (change colour scheme and icons)
 //Include a "back to tools" and "back to homepage" buttons
 
-
-
 import React, { useEffect, useState } from 'react'
-import { useTools, useAddTool, useEditTool, useDeleteTool } from '../hooks/useTools'
+import {
+  useTools,
+  useAddTool,
+  useEditTool,
+  useDeleteTool,
+  // useRentals,
+} from '../hooks/useTools'
 import { Tools } from '../../models/tools'
 import { Link } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -28,28 +32,27 @@ const Profile = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const filterTools = () => {
     if (!tools || !user) return
-    const filtered = tools.filter(tool => tool.tool_owner === user.nickname)
+    const filtered = tools.filter((tool) => tool.tool_owner === user.nickname)
     console.log(filtered)
     setUserTools(filtered)
-  };
+  }
 
   useEffect(() => {
     filterTools()
   }, [filterTools, tools, user])
 
+  // state for modal pop up
+  const [isOpen, setIsOpen] = useState(false)
 
-    // state for modal pop up
-    const [isOpen, setIsOpen] = useState(false)
+  const openModal = () => {
+    setIsOpen(true)
+    console.log('modal open')
+  }
 
-    const openModal = () => {
-      setIsOpen(true);
-      console.log('modal open')
-    };
-
-    const closeModal = () => {
-      setIsOpen(false);
-      console.log('modal closed')
-    };
+  const closeModal = () => {
+    setIsOpen(false)
+    console.log('modal closed')
+  }
 
   // State for form data
   const [formData, setFormData] = useState<Partial<Tools>>({
@@ -63,7 +66,9 @@ const Profile = () => {
   const [currentToolId, setCurrentToolId] = useState<number | null>(null)
 
   // Handle form input change
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target
     setFormData((prevData) => ({
       ...prevData,
@@ -75,7 +80,13 @@ const Profile = () => {
   const handleAddTool = () => {
     addToolMutation.mutate(formData as Tools, {
       onSuccess: () => {
-        setFormData({ tool_name: '', tool_owner: '', description: '', availability: true, image: '' })
+        setFormData({
+          tool_name: '',
+          tool_owner: '',
+          description: '',
+          availability: true,
+          image: '',
+        })
         refetch()
       },
     })
@@ -84,14 +95,23 @@ const Profile = () => {
   // Edit an existing tool
   const handleEditTool = () => {
     if (currentToolId !== null) {
-      editToolMutation.mutate({ id: currentToolId, updates: formData }, {
-        onSuccess: () => {
-          setEditMode(false)
-          setFormData({ tool_name: '', tool_owner: '', description: '', availability: true, image: '' })
-          setCurrentToolId(null)
-          refetch()
+      editToolMutation.mutate(
+        { id: currentToolId, updates: formData },
+        {
+          onSuccess: () => {
+            setEditMode(false)
+            setFormData({
+              tool_name: '',
+              tool_owner: '',
+              description: '',
+              availability: true,
+              image: '',
+            })
+            setCurrentToolId(null)
+            refetch()
+          },
         },
-      })
+      )
     }
   }
 
@@ -111,6 +131,12 @@ const Profile = () => {
     setEditMode(true)
   }
 
+  // Display rentals
+  // const userId = React.useMemo(() => {
+  //   return user?.sub ? parseInt(user.sub.split('|')[1], 10) : 0
+  // }, [user?.sub])
+  // const { data: rentals } = useRentals(userId)
+
   if (isLoading) return <p>Loading tools...</p>
   if (isError) return <p>Error loading tools</p>
 
@@ -120,8 +146,14 @@ const Profile = () => {
 
       {/* Tool Form: Add/Edit */}
       <button onClick={openModal}>Open Modal</button>
-      <dialog open={isOpen} onClose={closeModal} className={`modal-container ${isOpen ? 'open' : ''}`}>
-      <button onClick={closeModal} className='modal-close-button'>&times;</button>
+      <dialog
+        open={isOpen}
+        onClose={closeModal}
+        className={`modal-container ${isOpen ? 'open' : ''}`}
+      >
+        <button onClick={closeModal} className="modal-close-button">
+          &times;
+        </button>
         <h2>{editMode ? 'Edit Tool' : 'Add New Tool'}</h2>
         <input
           type="text"
@@ -129,7 +161,7 @@ const Profile = () => {
           value={formData.tool_name}
           onChange={handleChange}
           placeholder="Tool Name"
-          className='tool_name'
+          className="tool_name"
         />
         <input
           type="text"
@@ -137,14 +169,14 @@ const Profile = () => {
           value={formData.tool_owner}
           onChange={handleChange}
           placeholder="Tool Owner"
-          className='tool_owner'
+          className="tool_owner"
         />
         <textarea
           name="description"
           value={formData.description}
           onChange={handleChange}
           placeholder="Description"
-          className='tool-description'
+          className="tool-description"
         />
         <input
           type="text"
@@ -152,7 +184,7 @@ const Profile = () => {
           value={formData.image}
           onChange={handleChange}
           placeholder="Image URL"
-          className='tool-image'
+          className="tool-image"
         />
         <label>
           Availability:
@@ -160,7 +192,12 @@ const Profile = () => {
             type="checkbox"
             name="availability"
             checked={formData.availability}
-            onChange={(e) => setFormData((prevData) => ({ ...prevData, availability: e.target.checked }))}
+            onChange={(e) =>
+              setFormData((prevData) => ({
+                ...prevData,
+                availability: e.target.checked,
+              }))
+            }
           />
         </label>
         <button onClick={editMode ? handleEditTool : handleAddTool}>
@@ -170,14 +207,18 @@ const Profile = () => {
           <button
             onClick={() => {
               setEditMode(false)
-              setFormData({ tool_name: '', tool_owner: '', description: '', availability: true, image: '' })
+              setFormData({
+                tool_name: '',
+                tool_owner: '',
+                description: '',
+                availability: true,
+                image: '',
+              })
             }}
           >
             Cancel
           </button>
-          
         )}
-        
       </dialog>
 
       {/* Tool List */}
@@ -186,12 +227,17 @@ const Profile = () => {
         {userTools?.map((tool) => (
           <li key={tool.id}>
             <h3>{tool.tool_name}</h3>
-            <p>Availability: {tool.availability ? 'Available' : 'Not Available'}</p>
+            <p>
+              Availability: {tool.availability ? 'Available' : 'Not Available'}
+            </p>
             <button onClick={() => handleSetEditMode(tool)}>Edit</button>
             <button onClick={() => handleDeleteTool(tool.id)}>Delete</button>
           </li>
         ))}
       </ul>
+
+      {/*Rentals List*/}
+      <h2>Your Rentals</h2>
 
       {/* Navigation Links */}
       <Link to="/">Back to Homepage</Link>
