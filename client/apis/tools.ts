@@ -103,27 +103,24 @@ export async function editTool(
 // // // Use request.delete() to send a DELETE request to `${rootUrl}/${id}`
 // // Return success message "tool deleted"
 export async function deleteTool(id: number) {
-  return request.delete(`${rootUrl}/tools/${id}`);
+  return request.delete(`${rootUrl}/tools/${id}`)
 }
 
-
 export async function getUserByAuthId(auth_id: string): Promise<UsersData> {
-  
   const res = await request.get(`${rootUrl}/users/${auth_id}`)
-  console.log('Auth ID api response', res) 
+  console.log('Auth ID api response', res)
   return res.body
 }
 
 export async function getUserByID(id: number): Promise<UsersData> {
   const res = await request.get(`${rootUrl}/users/${id}`)
-  console.log('User ID api response', res) 
+  console.log('User ID api response', res)
   return res.body
 }
 
 export async function getUsers(): Promise<UsersData[]> {
-  
   const res = await request.get(`${rootUrl}/users`)
-  console.log('Users ID api response', res) 
+  console.log('Users ID api response', res)
   return res.body
 }
 
