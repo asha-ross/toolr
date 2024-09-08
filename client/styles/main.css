@@ -128,6 +128,26 @@ nav a:hover {
   padding-top: 5px;
 }
 
+.search-results {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-top: none;
+}
+
+.search-result-link {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+.search-result-link:hover {
+  background-color: #f0f0f0;
+}
+
 /* ╔════════════════════════╗ */
 /* ║   Product List Page    ║ */
 /* ╚════════════════════════╝ */
