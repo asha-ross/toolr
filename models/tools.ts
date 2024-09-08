@@ -7,6 +7,7 @@ export interface Tools {
   id: number
   tool_name: string
   tool_owner: string
+  tool_owner_id: number
   description: string
   image: string
   availability: boolean

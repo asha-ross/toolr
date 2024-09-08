@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import routes from './routes.tsx'
 import { Auth0Provider } from '@auth0/auth0-react'
+import { UserProvider } from './components/SignedInUser.tsx'
 
 const router = createBrowserRouter(routes)
 const queryClient = new QueryClient()
@@ -20,7 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
           audience: 'https://toolr/api',
         }}
       >
-        <RouterProvider router={router} />
+        <UserProvider>
+          <RouterProvider router={router} />
+        </UserProvider>
         <ReactQueryDevtools />
       </Auth0Provider>
     </QueryClientProvider>,
