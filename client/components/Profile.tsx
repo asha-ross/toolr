@@ -10,7 +10,7 @@ import {
   useAddTool,
   useEditTool,
   useDeleteTool,
-  // useRentals,
+  useRentals,
 } from '../hooks/useTools'
 import { Tools } from '../../models/tools'
 import { Link } from 'react-router-dom'
@@ -30,15 +30,6 @@ const Profile = () => {
 
   const [userTools, setUserTools] = useState<Tools[] | undefined>(tools)
 
-  useEffect(() => {
-    const filterTools = () => {
-      if (!tools || !user) return
-      const filtered = tools.filter((tool) => tool.tool_owner === user.nickname)
-      setUserTools(filtered)
-    }
-
-    filterTools()
-  }, [tools, user])
   // Update availability in the database
   const handleRentTool = (tool: Tools) => {
     const updatedTool = { ...tool, availability: false }
@@ -176,13 +167,28 @@ const Profile = () => {
   }
 
   // Display rentals
-  // const userId = React.useMemo(() => {
-  //   return user?.sub ? parseInt(user.sub.split('|')[1], 10) : 0
-  // }, [user?.sub])
-  // const { data: rentals } = useRentals(userId)
+  const userId = React.useMemo(() => {
+    return SignedInUser?.id ? Number(SignedInUser.id) : 0
+  }, [SignedInUser?.id])
 
-  if (isLoading) return <p>Loading tools...</p>
-  if (isError) return <p>Error loading tools</p>
+  const {
+    data: rentals,
+    isLoading: rentalIsLoading,
+    isError: rentalsError,
+  } = useRentals(userId)
+
+  useEffect(() => {
+    const filterTools = () => {
+      if (!tools || !user) return
+      const filtered = tools.filter((tool) => tool.tool_owner === user.nickname)
+      setUserTools(filtered)
+    }
+
+    filterTools()
+  }, [tools, user])
+
+  if (isLoading || rentalIsLoading) return <p>Loading tools...</p>
+  if (isError || rentalsError) return <p>Error loading tools</p>
 
   return (
     <div className="profile-container">
@@ -302,6 +308,18 @@ const Profile = () => {
 
       {/*Rentals List*/}
       <h2>Your Rentals</h2>
+      {rentals && rentals.length > 0 ? (
+        <ul>
+          {rentals.map((rental) => (
+            <li key={rental.transaction_id}>
+              Tool ID: {rental.tool_id}, Rental Fee: ${rental.rental_fee},
+              {/* <button onClick={() => handleReturnTool(rental.transaction_id)}>Return Tool</button> */}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>You have no rented tools yet.</p>
+      )}
 
       <Link to="/">Back to Homepage</Link>
       <Link to="/tools">Back to Tools</Link>
