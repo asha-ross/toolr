@@ -47,16 +47,19 @@ router.get('/tools/:id', async (req, res, next) => {
 //Add a new tool
 router.post('/tools', async (req, res) => {
 
-  const { tool_owner, tool_name, description, availability, image } = req.body
+  const { tool_owner, tool_owner_id, tool_name, description, availability, image, category, price } = req.body
 
-  console.log({ tool_owner, tool_name, description, availability, image })
+  console.log({ tool_owner, tool_owner_id, tool_name, description, availability, image, category, price })
     try {
       await db.addTool({
       tool_owner,
+      tool_owner_id,
       tool_name,
       description,
       availability,
       image,
+      category,
+      price
     })
     res.sendStatus(StatusCodes.CREATED)
   } catch (err) {
@@ -64,20 +67,6 @@ router.post('/tools', async (req, res) => {
   }
 })
 
-
-
-router.post('/', async (req, res) => {
-  const newUser = req.body
-  console.log('the server side is working too', newUser)
-
-  try {
-    await db_users.addUser(newUser)
-    res.sendStatus(200)
-  } catch (error) {
-    console.log('add user error')
-    res.sendStatus(500)
-  }
-})
 
 //TODO: PUT /api/v1/tools/:id
 //Update an existing tool
@@ -150,9 +139,37 @@ router.post('/', async (req, res) => {
   }
 })
 
+//TODO: GET /api/v1/users
+//Returns all users, potentially with pagination?
+router.get('/users', async (req, res) => {
+  try {
+    const users = await db_users.getUsers()
+
+    res.json(users)
+  } catch (error) {
+    console.error('Error fetching tools:', error)
+    res.status(500).json({ message: 'somthing went wrong on the server' })
+  }
+})
+
+
+router.get('/users/:id', async (req, res) => {
+  const id = Number(req.params.id)
+  try {
+    const users = await db_users.getUserById(id)
+
+    res.json(users)
+  } catch (error) {
+    console.error('Error fetching tools:', error)
+    res.status(500).json({ message: 'somthing went wrong on the server' })
+  }
+})
+
+
 // Get user by auth_id
 router.get('/api/v1/users/:auth_id', async (req, res) => {
-  const { auth_id } = req.params
+  const auth_id = req.params.auth_id
+  console.log(auth_id)
   const user = await db_users.getUserByAuthId(auth_id)
   if (user) {
     res.status(200).json(user)

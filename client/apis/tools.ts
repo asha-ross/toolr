@@ -4,7 +4,7 @@
 //import models/interfaces for tools, users etc
 
 import request from 'superagent'
-import { Tools, NewTool, Users } from '../../models/tools'
+import { Tools, NewTool, Users, UsersData } from '../../models/tools'
 
 const rootUrl = '/api/v1'
 
@@ -103,23 +103,30 @@ export async function editTool(
 // TODO: add deleteTool function
 // // // Use request.delete() to send a DELETE request to `${rootUrl}/${id}`
 // // Return success message "tool deleted"
-export async function deleteTool(id: number): Promise<void> {
-  return request.delete(`${rootUrl}/tools/${id}`).then(() => {
-    return
-  })
+export async function deleteTool(id: number) {
+  return request.delete(`${rootUrl}/tools/${id}`);
 }
 
-// export async function checkUserExists(auth_id: string, token: string) {
-//   try{
-//   const response = await request
-//   .get(`/api/v1/users/${auth_id}`)
-//   .set('Authorization', `Bearer ${token}`) 
-//   return response.body
-// } catch (error) {
-//   console.log('Error finding user', error)
-//   throw error
-// }
-// }
+
+export async function getUserByAuthId(auth_id: string): Promise<UsersData> {
+  
+  const res = await request.get(`${rootUrl}/users/${auth_id}`)
+  console.log('Auth ID api response', res) 
+  return res.body
+}
+
+export async function getUserByID(id: number): Promise<UsersData> {
+  const res = await request.get(`${rootUrl}/users/${id}`)
+  console.log('User ID api response', res) 
+  return res.body
+}
+
+export async function getUsers(): Promise<UsersData[]> {
+  
+  const res = await request.get(`${rootUrl}/users`)
+  console.log('Users ID api response', res) 
+  return res.body
+}
 
 export async function addUser(user: Users, token: string) {
   try {
