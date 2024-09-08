@@ -36,18 +36,21 @@ const Profile = () => {
       const filtered = tools.filter((tool) => tool.tool_owner === user.nickname)
       setUserTools(filtered)
     }
-  
+
     filterTools()
   }, [tools, user])
   // Update availability in the database
   const handleRentTool = (tool: Tools) => {
     const updatedTool = { ...tool, availability: false }
 
-    editToolMutation.mutate({ id: tool.id, updates: updatedTool }, {
-      onSuccess: () => {
-        refetch() // Refetch tools to show updated availability
+    editToolMutation.mutate(
+      { id: tool.id, updates: updatedTool },
+      {
+        onSuccess: () => {
+          refetch() // Refetch tools to show updated availability
+        },
       },
-    })
+    )
   }
 
   // state for modal pop up
@@ -87,48 +90,73 @@ const Profile = () => {
     }))
   }
 
-  const toolOwnerId = SignedInUser?.id ? Number(SignedInUser.id) : 0;
+  const toolOwnerId = SignedInUser?.id ? Number(SignedInUser.id) : 0
 
   const handleAddTool = () => {
     if (user) {
       const newTool: Tools = {
         ...formData,
         tool_owner: user.nickname || '',
-        tool_owner_id: toolOwnerId
-      };
+        tool_owner_id: toolOwnerId,
+      }
 
-      console.log('New Tool:', newTool);
+      console.log('New Tool:', newTool)
 
       addToolMutation.mutate(newTool, {
         onSuccess: () => {
-          setFormData({ tool_name: '', tool_owner: '', tool_owner_id: 0, description: '', availability: true, image: '', category: '', price: '' });
-          refetch();
+          setFormData({
+            tool_name: '',
+            tool_owner: '',
+            tool_owner_id: 0,
+            description: '',
+            availability: true,
+            image: '',
+            category: '',
+            price: '',
+          })
+          refetch()
         },
-      });
+      })
     }
   }
 
-  const uniqueCategories = Array.from(new Set(tools?.map(tool => tool.category)));
-  const [selectedCategory, setSelectedCategory] = useState<string>(formData.category || '')
+  const uniqueCategories = Array.from(
+    new Set(tools?.map((tool) => tool.category)),
+  )
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    formData.category || '',
+  )
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedCategory = event.target.value;
-    setSelectedCategory(selectedCategory);
+    const selectedCategory = event.target.value
+    setSelectedCategory(selectedCategory)
     setFormData((prevData) => ({
       ...prevData,
-      category: selectedCategory
-    }));
-  };
+      category: selectedCategory,
+    }))
+  }
 
   const handleEditTool = () => {
     if (currentToolId !== null) {
-      editToolMutation.mutate({ id: currentToolId, updates: formData }, {
-        onSuccess: () => {
-          setEditMode(false)
-          setFormData({ tool_name: '', tool_owner: '', tool_owner_id: 0, description: '', availability: true, image: '', price: '', category: '' })
-          setCurrentToolId(null)
-          refetch()
-      }},
+      editToolMutation.mutate(
+        { id: currentToolId, updates: formData },
+        {
+          onSuccess: () => {
+            setEditMode(false)
+            setFormData({
+              tool_name: '',
+              tool_owner: '',
+              tool_owner_id: 0,
+              description: '',
+              availability: true,
+              image: '',
+              price: '',
+              category: '',
+            })
+            setCurrentToolId(null)
+            refetch()
+          },
+        },
       )
     }
   }
@@ -157,10 +185,12 @@ const Profile = () => {
   if (isError) return <p>Error loading tools</p>
 
   return (
-    <div>
-      <h1>Your Profile</h1>
+    <div className="profile-container">
+      <h1 className="profile-header">Your Profile</h1>
 
-      <button onClick={openModal}>Open Modal</button>
+      <button onClick={openModal} className="add-tool-button">
+        Add Tool to Your List
+      </button>
       <dialog
         open={isOpen}
         onClose={closeModal}
@@ -179,18 +209,18 @@ const Profile = () => {
           className="tool_name"
         />
         {uniqueCategories.map((category) => (
-        <div key={category}>
-          <input
-            type="radio"
-            id={category}
-            name={category}
-            value={category}
-            onChange={handleCategoryChange}
-            checked={selectedCategory === category}
-          />
-          <label htmlFor={category}>{category}</label>
-        </div>
-      ))}
+          <div key={category}>
+            <input
+              type="radio"
+              id={category}
+              name={category}
+              value={category}
+              onChange={handleCategoryChange}
+              checked={selectedCategory === category}
+            />
+            <label htmlFor={category}>{category}</label>
+          </div>
+        ))}
         <textarea
           name="description"
           value={formData.description}
@@ -212,7 +242,7 @@ const Profile = () => {
           value={formData.price}
           onChange={handleChange}
           placeholder="Price"
-          className='Price'
+          className="Price"
         />
         <label>
           Please tick if the tool available now:
@@ -227,8 +257,8 @@ const Profile = () => {
               }))
             }
           />
-          </label>
-        
+        </label>
+
         <button onClick={editMode ? handleEditTool : handleAddTool}>
           {editMode ? 'Update Tool' : 'Add Tool'}
         </button>
@@ -236,7 +266,16 @@ const Profile = () => {
           <button
             onClick={() => {
               setEditMode(false)
-              setFormData({ tool_name: '', tool_owner: '', tool_owner_id: 0, description: '', availability: true, image: '', price: '', category: '' })
+              setFormData({
+                tool_name: '',
+                tool_owner: '',
+                tool_owner_id: 0,
+                description: '',
+                availability: true,
+                image: '',
+                price: '',
+                category: '',
+              })
             }}
           >
             Cancel

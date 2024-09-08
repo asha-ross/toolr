@@ -17,7 +17,7 @@ export default createRoutesFromElements(
     <Route path="tools/:id" element={<ProductPage />} />
     <Route path="about" element={<AboutToolr />} />
     <Route path="help" element={<Help />} />
-    <Route path="categories" element={<ProductsList />}/>
-    <Route path="tool-finder" element={<Help />}/>
+    <Route path="categories" element={<ProductsList />} />
+    <Route path="tool-finder" element={<Help />} />
   </Route>,
 )
