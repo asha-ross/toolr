@@ -1,5 +1,17 @@
+//Profile page shows:
+//All relevant information on their profile, including: distance, cost, user rating, availability of tools, rental status.
+//Ability to select "rent this tool"
+//Use Trademe as inspiration (change colour scheme and icons)
+//Include a "back to tools" and "back to homepage" buttons
+
 import React, { useEffect, useState } from 'react'
-import { useTools, useAddTool, useEditTool, useDeleteTool } from '../hooks/useTools'
+import {
+  useTools,
+  useAddTool,
+  useEditTool,
+  useDeleteTool,
+  // useRentals,
+} from '../hooks/useTools'
 import { Tools } from '../../models/tools'
 import { Link } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -21,23 +33,35 @@ const Profile = () => {
   useEffect(() => {
     const filterTools = () => {
       if (!tools || !user) return
-      const filtered = tools.filter(tool => tool.tool_owner === user.nickname)
+      const filtered = tools.filter((tool) => tool.tool_owner === user.nickname)
       setUserTools(filtered)
-    };
+    }
   
     filterTools()
   }, [tools, user])
+  // Update availability in the database
+  const handleRentTool = (tool: Tools) => {
+    const updatedTool = { ...tool, availability: false }
 
+    editToolMutation.mutate({ id: tool.id, updates: updatedTool }, {
+      onSuccess: () => {
+        refetch() // Refetch tools to show updated availability
+      },
+    })
+  }
+
+  // state for modal pop up
   const [isOpen, setIsOpen] = useState(false)
+
   const openModal = () => {
-    setIsOpen(true);
+    setIsOpen(true)
     console.log('modal open')
-  };
+  }
 
   const closeModal = () => {
-    setIsOpen(false);
+    setIsOpen(false)
     console.log('modal closed')
-  };
+  }
 
   const [formData, setFormData] = useState<Partial<Tools>>({
     tool_name: '',
@@ -52,7 +76,10 @@ const Profile = () => {
   const [editMode, setEditMode] = useState(false)
   const [currentToolId, setCurrentToolId] = useState<number | null>(null)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  // Handle form input change
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target
     setFormData((prevData) => ({
       ...prevData,
@@ -101,8 +128,8 @@ const Profile = () => {
           setFormData({ tool_name: '', tool_owner: '', tool_owner_id: 0, description: '', availability: true, image: '', price: '', category: '' })
           setCurrentToolId(null)
           refetch()
-        },
-      })
+      }},
+      )
     }
   }
 
@@ -120,6 +147,12 @@ const Profile = () => {
     setEditMode(true)
   }
 
+  // Display rentals
+  // const userId = React.useMemo(() => {
+  //   return user?.sub ? parseInt(user.sub.split('|')[1], 10) : 0
+  // }, [user?.sub])
+  // const { data: rentals } = useRentals(userId)
+
   if (isLoading) return <p>Loading tools...</p>
   if (isError) return <p>Error loading tools</p>
 
@@ -128,8 +161,14 @@ const Profile = () => {
       <h1>Your Profile</h1>
 
       <button onClick={openModal}>Open Modal</button>
-      <dialog open={isOpen} onClose={closeModal} className={`modal-container ${isOpen ? 'open' : ''}`}>
-      <button onClick={closeModal} className='modal-close-button'>&times;</button>
+      <dialog
+        open={isOpen}
+        onClose={closeModal}
+        className={`modal-container ${isOpen ? 'open' : ''}`}
+      >
+        <button onClick={closeModal} className="modal-close-button">
+          &times;
+        </button>
         <h2>{editMode ? 'Edit Tool' : 'Add New Tool'}</h2>
         <input
           type="text"
@@ -137,7 +176,7 @@ const Profile = () => {
           value={formData.tool_name}
           onChange={handleChange}
           placeholder="Tool Name"
-          className='tool_name'
+          className="tool_name"
         />
         {uniqueCategories.map((category) => (
         <div key={category}>
@@ -157,7 +196,7 @@ const Profile = () => {
           value={formData.description}
           onChange={handleChange}
           placeholder="Description"
-          className='tool-description'
+          className="tool-description"
         />
         <input
           type="text"
@@ -165,7 +204,7 @@ const Profile = () => {
           value={formData.image}
           onChange={handleChange}
           placeholder="Image URL"
-          className='tool-image'
+          className="tool-image"
         />
         <input
           type="text"
@@ -181,7 +220,12 @@ const Profile = () => {
             type="checkbox"
             name="availability"
             checked={formData.availability}
-            onChange={(e) => setFormData((prevData) => ({ ...prevData, availability: e.target.checked }))}
+            onChange={(e) =>
+              setFormData((prevData) => ({
+                ...prevData,
+                availability: e.target.checked,
+              }))
+            }
           />
           </label>
         
@@ -197,9 +241,7 @@ const Profile = () => {
           >
             Cancel
           </button>
-          
         )}
-        
       </dialog>
 
       <h2>Your Tools</h2>
@@ -207,12 +249,20 @@ const Profile = () => {
         {userTools?.map((tool) => (
           <li key={tool.id}>
             <h3>{tool.tool_name}</h3>
-            <p>Availability: {tool.availability ? 'Available' : 'Not Available'}</p>
+            <p>
+              Availability: {tool.availability ? 'Available' : 'Not Available'}
+            </p>
+            {tool.availability && (
+              <button onClick={() => handleRentTool(tool)}>Rent</button>
+            )}
             <button onClick={() => handleSetEditMode(tool)}>Edit</button>
             <button onClick={() => handleDeleteTool(tool.id)}>Delete</button>
           </li>
         ))}
       </ul>
+
+      {/*Rentals List*/}
+      <h2>Your Rentals</h2>
 
       <Link to="/">Back to Homepage</Link>
       <Link to="/tools">Back to Tools</Link>

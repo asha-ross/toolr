@@ -156,9 +156,6 @@ export default function Home() {
         {isLoading ? 'Searching' : 'Search'}
       </button>
       {error && <p className="error-message">{error}</p>}
-      <Link to="/productslist">
-        <button className="show-all-button">Show all tools</button>
-      </Link>
 
       <Link to="/tool-finder" className="helper-link">
         Not sure where to start? Click here for our ToolR assistant

@@ -27,7 +27,7 @@ function Header() {
         <div className='nav-options'>
         <ul>
           <li>
-            <Link to="/categories">Categories</Link>
+            <Link to="/categories">All tools</Link>
           </li>
           <li>
             <Link to="/profile">View Profile</Link>
