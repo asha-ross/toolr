@@ -4,23 +4,47 @@ import { getToolById, changeRentStatus } from '../apis/tools'
 import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 
+
 export default function GetSingleProduct() {
 
   const id = useParams().id
 
   const queryClient = useQueryClient() 
 
-  const [rentStatus, setRentStatus] = useState<boolean>()
-
+  //const [rentStatus, setRentStatus] = useState<boolean>()
+  const [isOpen, setIsOpen] = useState(false)
 
   const rentMutation = useMutation({
     mutationFn: (data: { availability: boolean; id: number }) => changeRentStatus(data.availability, data.id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tools'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tool', id] })
+      window.location.reload() 
+    },
   });
 
+  /*
    const handleRentChange = () => {
     setRentStatus(!rentStatus)
     rentMutation.mutate({ availability: !rentStatus, id: Number(tools?.id) });
+  }
+  */
+
+  // Open modal when "Rent out?" is clicked
+  const handleRentChange = () => {
+    setIsOpen(true) 
+  }
+
+  // Close modal after confirming rent
+  const confirmRent = () => {
+    if (tools) {
+      rentMutation.mutate({ availability: false, id: tools.id }) // Set availability to false (renting out)
+      setIsOpen(false) 
+    }
+  }
+
+  // Close modal without making any changes
+  const cancelRent = () => {
+    setIsOpen(false) 
   }
 
 
@@ -53,6 +77,18 @@ export default function GetSingleProduct() {
     </div>
     </div>
     </div>
+    <dialog
+        open={isOpen}
+        onClose={cancelRent}
+        className={`modal-container ${isOpen ? 'open' : ''}`}
+      >
+        <button onClick={cancelRent} className="modal-close-button">
+          &times;
+        </button>
+        <h3>Do you confirm this tool is what you are after?</h3>
+        <button onClick={confirmRent}>Yes</button>
+        <button onClick={cancelRent}>Not yet</button>
+      </dialog>
     </>
   )
 

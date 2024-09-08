@@ -41,6 +41,17 @@ const Profile = () => {
     filterTools()
   }, [filterTools, tools, user])
 
+  // Update availability in the database
+  const handleRentTool = (tool: Tools) => {
+    const updatedTool = { ...tool, availability: false }
+
+    editToolMutation.mutate({ id: tool.id, updates: updatedTool }, {
+      onSuccess: () => {
+        refetch() // Refetch tools to show updated availability
+      },
+    })
+  }
+
   // state for modal pop up
   const [isOpen, setIsOpen] = useState(false)
 
@@ -230,6 +241,9 @@ const Profile = () => {
             <p>
               Availability: {tool.availability ? 'Available' : 'Not Available'}
             </p>
+            {tool.availability && (
+              <button onClick={() => handleRentTool(tool)}>Rent</button>
+            )}
             <button onClick={() => handleSetEditMode(tool)}>Edit</button>
             <button onClick={() => handleDeleteTool(tool.id)}>Delete</button>
           </li>
