@@ -375,6 +375,12 @@ nav a:hover {
   opacity: 0.8;
 }
 
+.unavailable-label {
+  color: red;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
 /* ╔═══════════════════╗ */
 /* ║   Profile Page    ║ */
 /* ╚═══════════════════╝ */
