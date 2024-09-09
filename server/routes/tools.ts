@@ -47,12 +47,29 @@ router.get('/tools/:id', async (req, res, next) => {
 //TODO: POST /api/v1/tools
 //Add a new tool
 router.post('/tools', async (req, res) => {
+  const {
+    tool_owner,
+    tool_owner_id,
+    tool_name,
+    description,
+    availability,
+    image,
+    category,
+    price,
+  } = req.body
 
-  const { tool_owner, tool_owner_id, tool_name, description, availability, image, category, price } = req.body
-
-  console.log({ tool_owner, tool_owner_id, tool_name, description, availability, image, category, price })
-    try {
-      await db.addTool({
+  console.log({
+    tool_owner,
+    tool_owner_id,
+    tool_name,
+    description,
+    availability,
+    image,
+    category,
+    price,
+  })
+  try {
+    await db.addTool({
       tool_owner,
       tool_owner_id,
       tool_name,
@@ -60,7 +77,7 @@ router.post('/tools', async (req, res) => {
       availability,
       image,
       category,
-      price
+      price,
     })
     res.sendStatus(StatusCodes.CREATED)
   } catch (err) {
@@ -165,7 +182,6 @@ router.get('/users', async (req, res) => {
   }
 })
 
-
 router.get('/users/:id', async (req, res) => {
   const id = Number(req.params.id)
   try {
@@ -177,7 +193,6 @@ router.get('/users/:id', async (req, res) => {
     res.status(500).json({ message: 'somthing went wrong on the server' })
   }
 })
-
 
 // Get user by auth_id
 router.get('/api/v1/users/:auth_id', async (req, res) => {
@@ -192,16 +207,56 @@ router.get('/api/v1/users/:auth_id', async (req, res) => {
 })
 
 //get existing rentals
-router.get('/rentals/:userId', async (req, res) => {
+router.get('/transactions/:userId', async (req, res) => {
   const userId = Number(req.params.userId)
+  console.log('Fetching rentals for userId:', userId)
   try {
     const rentals = await db_rentals.getRentalsByBorrower(userId)
+    console.log(`Rentals found for user ${userId}:`, rentals)
     res.status(StatusCodes.OK).json(rentals)
   } catch (error) {
     console.error('Error fetching rentals:', error)
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: 'Error retrieving rentals' })
+  }
+})
+
+//post rental transactions
+router.post('/transactions', async (req, res) => {
+  try {
+    console.log('Received rental data on server:', req.body)
+    const { tool_id, borrower_id, rental_fee, start_date, end_date } = req.body
+
+    console.log('Rental fee received on server:', rental_fee)
+    console.log('Type of rental fee: ', typeof rental_fee)
+
+    const parsedRentalFee =
+      typeof rental_fee === 'string'
+        ? parseFloat(rental_fee.replace('$', ''))
+        : rental_fee
+    if (
+      parsedRentalFee === null ||
+      parsedRentalFee === undefined ||
+      isNaN(parsedRentalFee)
+    ) {
+      throw new Error(`Invalid rental fee on server: ${rental_fee}`)
+    }
+
+    const newRental = await db_rentals.addRentalTransaction({
+      tool_id,
+      borrower_id,
+      rental_fee: parsedRentalFee,
+      start_date,
+      end_date,
+      lender_id: 0,
+      status: 'active',
+      created_at: new Date(),
+    })
+    res.status(201).json(newRental)
+  } catch (error) {
+    console.error('Error adding rental transaction:', error)
+    res.status(500).json({ message: 'Error adding rental' })
   }
 })
 

@@ -47,16 +47,7 @@ export interface Transactions {
   lender_id: number
   start_date: Date
   end_date: Date
-  rental_fee: number
+  rental_fee: string | number
   status: string
   created_at: Date
-}
-
-export interface Rental {
-  transaction_id: number
-  tool_id: number
-  tool_name: string
-  rental_fee: number
-  rental_start: string
-  rental_end: string
 }

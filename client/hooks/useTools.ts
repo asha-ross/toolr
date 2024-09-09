@@ -22,7 +22,7 @@ import {
   getToolsByCategory,
   getRentals,
 } from '../apis/tools'
-import { Tools, Rental } from '../../models/tools'
+import { Tools, Transactions } from '../../models/tools'
 
 // Hook to fetch all tools
 export function useTools() {
@@ -94,8 +94,8 @@ export function useDeleteTool() {
 
 //hook for getting Rentals
 export function useRentals(userId: number) {
-  return useQuery<Rental[], Error>({
-    queryKey: ['rentals', userId],
+  return useQuery<Transactions[], Error>({
+    queryKey: ['transactions', userId],
     queryFn: () => getRentals(userId),
     enabled: userId > 0,
   })

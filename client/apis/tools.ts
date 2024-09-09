@@ -4,7 +4,13 @@
 //import models/interfaces for tools, users etc
 
 import request from 'superagent'
-import { Tools, NewTool, Users, Rental, UsersData } from '../../models/tools'
+import {
+  Tools,
+  NewTool,
+  Users,
+  UsersData,
+  Transactions,
+} from '../../models/tools'
 
 const rootUrl = '/api/v1'
 
@@ -150,12 +156,44 @@ export async function changeRentStatus(availability: boolean, id: number) {
   }
 }
 
-export async function getRentals(userId: number): Promise<Rental[]> {
+export async function getRentals(userId: number): Promise<Transactions[]> {
+  console.log('Fetching rentals for userId:', userId)
   try {
-    const res = await request.get(`${rootUrl}/rentals/${userId}`)
+    const res = await request.get(`${rootUrl}/transactions/${userId}`)
     return res.body
   } catch (error) {
     console.error('Error fetching rentals:', error)
+    throw error
+  }
+}
+
+export async function addRentalTransaction(
+  data: Omit<Transactions, 'id'>,
+): Promise<Transactions> {
+  console.log('Received rental transaction data in API:', data)
+  console.log('Rental fee in API:', data.rental_fee)
+
+  const rentalFee =
+    typeof data.rental_fee === 'string'
+      ? parseFloat(data.rental_fee.replace('$', ''))
+      : data.rental_fee
+
+  if (rentalFee === null || rentalFee === undefined || isNaN(rentalFee)) {
+    throw new Error(`Invalid rental fee in API: ${data.rental_fee}`)
+  }
+
+  const transactionData = {
+    ...data,
+    rental_fee: rentalFee,
+  }
+
+  try {
+    const res = await request
+      .post(`${rootUrl}/transactions`)
+      .send(transactionData)
+    return res.body
+  } catch (error) {
+    console.error('Error adding rental transaction:', error)
     throw error
   }
 }
