@@ -102,7 +102,11 @@ export default function GetSingleProduct() {
             <p>{tools?.description}</p>
             <p>{tools?.availability ? 'Yes' : 'No'}</p>
             <p>{tools?.price}</p>
-            <button onClick={handleRentChange}>Rent out?</button>
+            {tools?.availability ? (
+              <button onClick={handleRentChange}>Rent out?</button>
+            ) : (
+              <span className="unavailable-label">Unavailable</span>
+            )}
           </div>
         </div>
 
