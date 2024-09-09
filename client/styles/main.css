@@ -462,3 +462,51 @@ nav a:hover {
     grid-template-columns: 1fr;
   }
 }
+
+/* ╔═══════════════════╗ */
+/* ║       About       ║ */
+/* ╚═══════════════════╝ */
+
+.help-header {
+  background-color: #406e4a;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.about-toolr {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-size: 16px;
+}
+
+.toolr-description {
+  background-color: #406e4a;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.toolr-card {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #000000;
+  line-height: 1.5;
+}
+
+.join-toolr {
+  background-color: #406e4a;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.join-toolr:hover,
+.toolr-description:hover,
+.help-header:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 1.5);
+}
