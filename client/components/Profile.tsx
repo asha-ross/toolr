@@ -311,8 +311,11 @@ const Profile = () => {
       {rentals && rentals.length > 0 ? (
         <ul>
           {rentals.map((rental) => (
-            <li key={rental.transaction_id}>
-              Tool ID: {rental.tool_id}, Rental Fee: ${rental.rental_fee},
+            <li key={rental.id}>
+              Tool: {rental.tool_id}, Rental Fee: ${rental.rental_fee}, Start
+              Date: {new Date(rental.start_date).toLocaleDateString()}, End
+              date: {new Date(rental.end_date).toLocaleDateString()}, Status:{' '}
+              {rental.status}
               {/* <button onClick={() => handleReturnTool(rental.transaction_id)}>Return Tool</button> */}
             </li>
           ))}
