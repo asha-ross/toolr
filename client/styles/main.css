@@ -405,3 +405,54 @@ nav a:hover {
 .add-tool-button {
   border-radius: 0.5rem;
 }
+
+/* ╔═══════════════════╗ */
+/* ║        FAQs       ║ */
+/* ╚═══════════════════╝ */
+
+.help-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.faq-section {
+  margin-top: 30px;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.faq-item {
+  background-color: #406e4a;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.faq-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 1.5);
+}
+
+.faq-item h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #000000;
+}
+
+.faq-item p {
+  font-size: 14px;
+  color: #fdfdfd;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .faq-grid {
+    grid-template-columns: 1fr;
+  }
+}
