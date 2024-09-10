@@ -186,12 +186,15 @@ nav a:hover {
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .product-info {
   width: 50%;
   display: flex;
+  flex-direction: column;
   background-color: white;
+  padding: 20px;
 }
 
 .product-image {
@@ -249,6 +252,41 @@ nav a:hover {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 20px;
+}
+
+.tool-item-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  border-bottom: 1px solid lightgray;
+  gap: 5px;
+}
+
+.tool-item-container > * {
+  flex-shrink: 0;
+}
+
+.owner-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+
+.owner-container p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.owner-container p::first-letter {
+  margin-right: 5px;
+}
+
+.availability-container {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 /* ╔═══════════════════╗ */
