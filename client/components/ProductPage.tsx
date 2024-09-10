@@ -9,6 +9,8 @@ import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useUser } from './SignedInUser'
+import SafetyModal from './Safety'
+import checkAnswers from './Safety'
 
 export default function GetSingleProduct() {
   const { user } = useAuth0()
@@ -73,8 +75,14 @@ export default function GetSingleProduct() {
   }
 
   // Close modal after confirming rent
-  const confirmRent = () => {
-    rentMutation.mutate()
+  const confirmRent = async () => {
+    const passedQuiz = await checkAnswers() // Call checkAnswers from SafetyModal
+
+    if (passedQuiz) {
+      rentMutation.mutate()
+    } else {
+      setErrorMessage('You must pass the safety quiz to rent this tool.')
+    }
   }
 
   // Close modal without making any changes
@@ -126,9 +134,10 @@ export default function GetSingleProduct() {
               </button>
             </div>
             <div className="modal-content">
-              <p>Are you sure you want to rent this tool?</p>
-              <p>Rental Fee: ${tools?.price}</p>
-              <p>Rental Period: 7 days</p>
+              <SafetyModal
+                onClose={cancelRent}
+                checkQuizAnswers={checkAnswers}
+              />
               {errorMessage && <p className="error-message">{errorMessage}</p>}
             </div>
             <div className="modal-footer">

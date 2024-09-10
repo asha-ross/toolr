@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 
-export default function SafetyModal({ onClose }) {
-  // Explicitly use onClose prop for modal closing functionality (optional)
-  // const handleClose = () => onClose();
-
+export default function SafetyModal({ onClose, checkQuizAnswers }) {
   // Define state variables using useState
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({}) // Type userAnswers as object with string keys and values
   const [quizPassed, setQuizPassed] = useState(false)
@@ -23,7 +20,7 @@ export default function SafetyModal({ onClose }) {
     setUserAnswers({ ...userAnswers, [questionId.toString()]: answer }) // Convert questionId to string for object key
   }
 
-  const evaluateQuiz = () => {
+  const checkAnswers = () => {
     let isPassed = true
     for (const question of quizQuestions) {
       if (userAnswers[question.id] !== question.answer) {
@@ -53,7 +50,7 @@ export default function SafetyModal({ onClose }) {
           ))}
         </div>
       ))}
-      <button onClick={evaluateQuiz}>Submit</button>
+      <button onClick={checkAnswers}>Submit</button>
       {quizPassed && <p>Quiz passed! You can now rent the tool.</p>}
       {!quizPassed && <p>Please review the answers and try again.</p>}
     </div>
