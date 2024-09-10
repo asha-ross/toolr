@@ -203,6 +203,14 @@ nav a:hover {
   justify-content: center;
 }
 
+.product-listing {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .tool-image {
   padding: 5%;
   width: 100%;
