@@ -72,6 +72,7 @@ const Profile = () => {
   })
   const [editMode, setEditMode] = useState(false)
   const [currentToolId, setCurrentToolId] = useState<number | null>(null)
+  const [rentStatus, setRentStatus] = useState<boolean>(false);
 
   // Handle form input change
   const handleChange = (
@@ -163,6 +164,15 @@ const Profile = () => {
     })
   }
 
+  const handleToolRentChange = (toolId: number, newStatus: boolean) => {
+    setRentStatus(newStatus)
+
+    editToolMutation.mutate(
+      { id: toolId, updates: { availability: newStatus } },
+    );
+  };
+
+
   const handleSetEditMode = (tool: Tools) => {
     setFormData(tool)
     setCurrentToolId(tool.id)
@@ -195,6 +205,12 @@ const Profile = () => {
 
   const handleReturnTool = (id: number) => {
     deleteRentalMutation.mutate(id);
+  };
+
+  const handleReturnAndRentChange = (rentalId: number, toolId: number) => {
+    const newStatus = !rentStatus;
+    handleReturnTool(rentalId); // Return the tool
+    handleToolRentChange(toolId, newStatus); // Update the rent status
   };
 
 
@@ -325,7 +341,9 @@ const Profile = () => {
               <p>Start Date: {new Date(rental.start_date).toLocaleDateString()}</p> 
               <p>End Date: {new Date(rental.end_date).toLocaleDateString()}</p> 
               <p>Status:{' '}{rental.status}</p>
-              <button onClick={() => handleReturnTool(rental.id)}>Return Tool</button>
+              <button onClick={() => handleReturnAndRentChange(rental?.id, rental.tool_id)}>
+        Return Tool
+      </button>
             </li>
           ))}
         </ul>
