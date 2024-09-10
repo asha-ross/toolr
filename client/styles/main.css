@@ -19,12 +19,12 @@ html {
   padding: 15px;
   width: 450px;
   border-radius: 0.3rem;
-  margin-top: 25px;
+  margin: 25px;
   box-shadow:
     0,
     0,
     0,
-    0.8 black;
+    1 black;
 }
 
 .search-button {
