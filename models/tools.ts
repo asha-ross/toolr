@@ -7,12 +7,13 @@ export interface Tools {
   id: number
   tool_name: string
   tool_owner: string
+  tool_owner_id: number
   description: string
   image: string
   availability: boolean
   category: string
   //user_rating: number
-  //cost: number
+  price: string
   created_at: Date
 }
 
@@ -46,7 +47,7 @@ export interface Transactions {
   lender_id: number
   start_date: Date
   end_date: Date
-  rental_fee: number
+  rental_fee: string | number
   status: string
   created_at: Date
 }

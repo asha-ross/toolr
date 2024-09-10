@@ -17,5 +17,25 @@ export async function seed(knex) {
       auth_id: 'some_auth_id_3',
       username: 'Seven of Nine',
     },
+    {
+      auth_id: "auth_paris_1",
+      username: "Paris"
+    },
+    {
+      auth_id: "auth_kim_2",
+      username: "Kim"
+    },
+    {
+      auth_id: "auth_tuvok_3",
+      username: "Tuvok"
+    },
+    {
+      auth_id: "auth_neelix_4",
+      username: "Neelix"
+    },
+    {
+      auth_id: "auth_doctor_5",
+      username: "The Doctor"
+    }
   ])
 }

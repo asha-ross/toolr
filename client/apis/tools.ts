@@ -4,13 +4,19 @@
 //import models/interfaces for tools, users etc
 
 import request from 'superagent'
-import { Tools, NewTool, Users } from '../../models/tools'
+import {
+  Tools,
+  NewTool,
+  Users,
+  UsersData,
+  Transactions,
+} from '../../models/tools'
 
-const rootUrl = '/api/v1/'
+const rootUrl = '/api/v1'
 
 export async function getTools(): Promise<Tools[]> {
   try {
-    const res = await request.get(rootUrl + 'tools')
+    const res = await request.get(`${rootUrl}/tools`)
     console.log('API response:', res)
     if (Array.isArray(res.body)) {
       return res.body
@@ -21,6 +27,18 @@ export async function getTools(): Promise<Tools[]> {
   } catch (error) {
     console.error('Error fetching tools:', error)
     return []
+  }
+}
+
+// get tool by id
+export async function getToolById(id: number): Promise<Tools> {
+  try {
+    const res = await request.get(`${rootUrl}/tools/${id}`)
+    console.log('Single tool response:', res)
+    return res.body
+  } catch (error) {
+    console.error('Error fetching tools:', error)
+    throw error
   }
 }
 
@@ -64,7 +82,7 @@ export async function getToolsByCategory(category?: string): Promise<Tools[]> {
 
 export async function addTool(tool: NewTool): Promise<Tools> {
   return request
-    .post(rootUrl + 'tools')
+    .post(`${rootUrl}/tools`)
     .send(tool)
     .then((res) => {
       return res.body // Assuming the newly created tool is returned in the response body
@@ -90,22 +108,26 @@ export async function editTool(
 // TODO: add deleteTool function
 // // // Use request.delete() to send a DELETE request to `${rootUrl}/${id}`
 // // Return success message "tool deleted"
-export async function deleteTool(id: number): Promise<void> {
-  return request.delete(`${rootUrl}tools/${id}`).then(() => {
-    return
-  })
+export async function deleteTool(id: number) {
+  return request.delete(`${rootUrl}/tools/${id}`)
 }
 
-export async function checkUserExists(auth_id: string, token: string) {
-  try{
-  const response = await request
-  .get(`/api/v1/users/${auth_id}`)
-  .set('Authorization', `Bearer ${token}`) 
-  return response.body
-} catch (error) {
-  console.log('Error finding user', error)
-  throw error
+export async function getUserByAuthId(auth_id: string): Promise<UsersData> {
+  const res = await request.get(`${rootUrl}/users/${auth_id}`)
+  console.log('Auth ID api response', res)
+  return res.body
 }
+
+export async function getUserByID(id: number): Promise<UsersData> {
+  const res = await request.get(`${rootUrl}/users/${id}`)
+  console.log('User ID api response', res)
+  return res.body
+}
+
+export async function getUsers(): Promise<UsersData[]> {
+  const res = await request.get(`${rootUrl}/users`)
+  console.log('Users ID api response', res)
+  return res.body
 }
 
 export async function addUser(user: Users, token: string) {
@@ -117,6 +139,61 @@ export async function addUser(user: Users, token: string) {
     return response.body
   } catch (error) {
     console.error('Error adding user:', error)
+    throw error
+  }
+}
+
+export async function changeRentStatus(availability: boolean, id: number) {
+  console.log('sending patch request with: ', { availability })
+  try {
+    const res = await request
+      .patch(`${rootUrl}/tools/${id}`)
+      .send({ availability })
+    return res.body
+  } catch (error) {
+    console.error('Error updating rental status:', error)
+    throw error
+  }
+}
+
+export async function getRentals(userId: number): Promise<Transactions[]> {
+  console.log('Fetching rentals for userId:', userId)
+  try {
+    const res = await request.get(`${rootUrl}/transactions/${userId}`)
+    return res.body
+  } catch (error) {
+    console.error('Error fetching rentals:', error)
+    throw error
+  }
+}
+
+export async function addRentalTransaction(
+  data: Omit<Transactions, 'id'>,
+): Promise<Transactions> {
+  console.log('Received rental transaction data in API:', data)
+  console.log('Rental fee in API:', data.rental_fee)
+
+  const rentalFee =
+    typeof data.rental_fee === 'string'
+      ? parseFloat(data.rental_fee.replace('$', ''))
+      : data.rental_fee
+
+  if (rentalFee === null || rentalFee === undefined || isNaN(rentalFee)) {
+    throw new Error(`Invalid rental fee in API: ${data.rental_fee}`)
+  }
+
+  const transactionData = {
+    ...data,
+    rental_fee: rentalFee,
+  }
+
+  try {
+    const res = await request
+      .post(`${rootUrl}/transactions`)
+      .send(transactionData)
+    return res.body
+  } catch (error) {
+    console.error('Error adding rental transaction:', error)
     throw error
   }
 }
