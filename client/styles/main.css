@@ -387,7 +387,7 @@ nav a:hover {
 
 .profile-container {
   display: grid;
-  margin: 25px;
+  margin: 0 auto;
   padding: 45px;
   background-color: rgba(30, 145, 55, 0.9);
   border: solid 3px white;
@@ -420,10 +420,14 @@ nav a:hover {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .faq-section {
   margin-top: 30px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .faq-grid {
@@ -434,11 +438,13 @@ nav a:hover {
 }
 
 .faq-item {
-  background-color: #406e4a;
+  background-color: #1e9137;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   transition: box-shadow 0.3s ease;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .faq-item:hover {
@@ -447,6 +453,8 @@ nav a:hover {
 
 .faq-item h3 {
   font-size: 18px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
   margin-bottom: 10px;
   color: #000000;
 }
@@ -468,11 +476,14 @@ nav a:hover {
 /* ╚═══════════════════╝ */
 
 .help-header {
-  background-color: #406e4a;
+  background-color: #1e9137;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   transition: box-shadow 0.3s ease;
+  font-size: 24px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .about-toolr {
@@ -480,29 +491,39 @@ nav a:hover {
   margin: 0 auto;
   padding: 20px;
   font-size: 16px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .toolr-description {
-  background-color: #406e4a;
+  background-color: #1e9137;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 25px;
   transition: box-shadow 0.3s ease;
+  font-size: 18px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .toolr-card {
-  font-size: 18px;
+  font-size: 16px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
   margin-bottom: 10px;
   color: #000000;
   line-height: 1.5;
 }
 
 .join-toolr {
-  background-color: #406e4a;
+  background-color: #1e9137;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   transition: box-shadow 0.3s ease;
+  font-size: 18px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .join-toolr:hover,
@@ -593,12 +614,12 @@ nav a:hover {
 }
 
 .hammer-gif {
-  width: 170px
+  width: 170px;
 }
 
 .hammer-gif-2 {
   width: 170px;
-  transform: rotateY(180deg)
+  transform: rotateY(180deg);
 }
 
 .header-text {

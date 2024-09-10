@@ -98,7 +98,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-//TODO: PUT /api/v1/tools/:id
+// TODO: PUT /api/v1/tools/:id
 //Update an existing tool
 router.patch('/tools/:id', async (req, res) => {
   const { id } = req.params
