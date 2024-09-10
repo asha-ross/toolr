@@ -1,6 +1,6 @@
 const AboutToolr = () => {
   return (
-    <div>
+    <div className="help-container">
       <h1 className="help-header">About Toolr</h1>
       <p className="about-toolr">
         Welcome to Toolr! Toolr is a user-friendly online platform that connects
