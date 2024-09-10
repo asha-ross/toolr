@@ -61,7 +61,7 @@ export default function Home() {
         />
         {searchTerm && (
           <ul className="search-results">
-            {searchResults.map((item) => (
+            {searchResults.map((item: Tools) => (
               <li key={item.id}>
                 <Link to={`/tools/${item.id}`} className="search-result-link">
                   {item.tool_name}
@@ -71,9 +71,6 @@ export default function Home() {
           </ul>
         )}
       </form>
-      <button type="submit" className="search-button" disabled={isLoading}>
-        {isLoading ? 'Searching' : 'Search'}
-      </button>
       {error && <p className="error-message">{error}</p>}
 
       <Link to="/tool-finder" className="helper-link">

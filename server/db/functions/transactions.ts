@@ -43,6 +43,7 @@ export async function getRentalsByBorrower(borrower_id: number) {
       .select(
         'transactions.id',
         'transactions.tool_id',
+        'transactions.tool_name',
         'transactions.rental_fee',
         'transactions.start_date',
         'transactions.end_date',
@@ -89,5 +90,21 @@ export async function addRentalTransaction(
   } catch (error) {
     console.error('Error in addRentalTransaction:', error)
     throw error
+  }
+}
+
+// Delete a transaction by its ID
+export async function deleteTransaction(id: number) {
+  try {
+    const deletedRows = await db('transactions').where({ id }).del()
+
+    if (deletedRows === 0) {
+      throw new Error('Tool not found')
+    }
+
+    return deletedRows // Optionally return the number of deleted rows
+  } catch (error) {
+    console.error(`Error deleting transaction with ID ${id}:`, error)
+    throw new Error('Failed to delete tool')
   }
 }
