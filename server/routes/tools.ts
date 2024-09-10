@@ -68,7 +68,7 @@ router.get('/:id', async (req, res, next) => {
 //   }
 // })
 
-//TODO: PUT /api/v1/tools/:id
+// TODO: PUT /api/v1/tools/:id
 //Update an existing tool
 router.put('/:id', async (req, res) => {
   const { id } = req.params
