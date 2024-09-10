@@ -197,3 +197,7 @@ export async function addRentalTransaction(
     throw error
   }
 }
+
+export async function deleteTransaction(id: number) {
+  return request.delete(`${rootUrl}/transactions/${id}`)
+}

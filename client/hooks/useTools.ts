@@ -21,6 +21,7 @@ import {
   deleteTool,
   getToolsByCategory,
   getRentals,
+  deleteTransaction
 } from '../apis/tools'
 import { Tools, Transactions } from '../../models/tools'
 
@@ -98,5 +99,20 @@ export function useRentals(userId: number) {
     queryKey: ['transactions', userId],
     queryFn: () => getRentals(userId),
     enabled: userId > 0,
+  })
+}
+
+// Hook for deleting a rental
+export function useDeleteRental() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: number) => deleteTransaction(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['transactions'] })
+    },
+    onError: (error) => {
+      console.error('Error deleting tool:', error)
+    },
   })
 }
