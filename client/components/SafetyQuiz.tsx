@@ -1,13 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export default function SafetyModal({ onClose, checkQuizAnswers }) {
+export default function SafetyQuiz() {
   // Define state variables using useState
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({}) // Type userAnswers as object with string keys and values
   const [quizPassed, setQuizPassed] = useState(false)
-  const storeQuizCompletion = () => {
-    sessionStorage.setItem('quizTaken', 'true')
-  }
   const quizQuestions = [
     {
       id: 1,
@@ -20,7 +17,7 @@ export default function SafetyModal({ onClose, checkQuizAnswers }) {
       id: 2,
       question: 'Is it safe to use an electrically powered tool in the rain?',
       options: ['Yes', 'No'],
-      answer: 'Yes',
+      answer: 'No',
     },
     {
       id: 3,
@@ -49,10 +46,15 @@ export default function SafetyModal({ onClose, checkQuizAnswers }) {
   const handleSubmit = () => {
     evaluateQuiz()
     if (quizPassed) {
-      Navigate('/product-page?quizPassed=true')
+      storeQuizCompletion()
+      navigate('/product-page?quizPassed=true')
     } else {
-      Navigate('/product-page?quizFailed=true')
+      navigate('/product-page?quizFailed=true')
     }
+  }
+
+  const storeQuizCompletion = () => {
+    sessionStorage.setItem('quizTaken', 'true')
   }
   return (
     <div className="safety-quiz">

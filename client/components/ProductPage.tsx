@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useUser } from './SignedInUser'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function GetSingleProduct() {
   const { user } = useAuth0()
@@ -20,7 +20,6 @@ export default function GetSingleProduct() {
   const [showSafetyModal, setShowSafetyModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const navigate = useNavigate()
-  const location = useLocation()
   const hasTakenQuiz = sessionStorage.getItem('quiztaken') === 'true'
 
   const {

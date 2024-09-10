@@ -8,6 +8,7 @@ import ProductPage from './components/ProductPage.tsx'
 import AboutToolr from './components/AboutToolr.tsx'
 import Help from './components/Help.tsx'
 import ToolrAssistant from './components/ToolrAssistant.tsx'
+import SafetyQuiz from './components/SafetyQuiz.tsx'
 
 export default createRoutesFromElements(
   <Route path="/" element={<App />}>
@@ -20,5 +21,6 @@ export default createRoutesFromElements(
     <Route path="help" element={<Help />} />
     <Route path="categories" element={<ProductsList />} />
     <Route path="tool-finder" element={<ToolrAssistant />} />
+    <Route path="safety-quiz" element={<SafetyQuiz />} />
   </Route>,
 )
