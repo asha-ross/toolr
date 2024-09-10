@@ -98,7 +98,7 @@ export async function editTool(
   updates: Partial<Tools>,
 ): Promise<Tools> {
   return request
-    .put(`${rootUrl + 'tools'}/${id}`)
+    .patch(`${rootUrl}/tools/${id}`)
     .send(updates)
     .then((res) => {
       return res.body
