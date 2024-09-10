@@ -38,12 +38,15 @@ export default function GetSingleProduct() {
       const borrowerId = SignedInUser?.id ? Number(SignedInUser.id) : 0
       const rentalFee = parseFloat(tools.price.replace('$', ''))
 
+      console.log(borrowerId)
+
       if (isNaN(rentalFee)) {
         throw new Error(`Invalid rental fee: ${tools.price}`)
       }
 
       const rentalData: Omit<Transactions, 'id'> = {
         tool_id: tools.id,
+        tool_name: tools.tool_name,
         borrower_id: borrowerId,
         lender_id: tools.tool_owner_id,
         rental_fee: rentalFee,

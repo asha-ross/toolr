@@ -186,18 +186,29 @@ nav a:hover {
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .product-info {
   width: 50%;
   display: flex;
+  flex-direction: column;
   background-color: white;
+  padding: 20px;
 }
 
 .product-image {
   width: 50%;
   display: flex;
   justify-content: center;
+}
+
+.product-listing {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .tool-image {
@@ -249,6 +260,41 @@ nav a:hover {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 20px;
+}
+
+.tool-item-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  border-bottom: 1px solid lightgray;
+  gap: 5px;
+}
+
+.tool-item-container > * {
+  flex-shrink: 0;
+}
+
+.owner-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+
+.owner-container p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.owner-container p::first-letter {
+  margin-right: 5px;
+}
+
+.availability-container {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 /* ╔═══════════════════╗ */
@@ -387,9 +433,9 @@ nav a:hover {
 
 .profile-container {
   display: grid;
-  margin: 25px;
+  margin: 0 auto;
   padding: 45px;
-  background-color: rgba(30, 145, 55, 0.9);
+  background-color: #1e9137;
   border: solid 3px white;
   border-radius: 25px;
   color: white;
@@ -399,6 +445,7 @@ nav a:hover {
   overflow-y: auto;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(5px);
+
 }
 
 .profile-header {
@@ -406,7 +453,21 @@ nav a:hover {
   display: flex;
   border: solid 2px white;
   justify-content: center;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-weight: normal;
+  
 }
+
+.profile-sub-heading {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-weight: normal;
+}
+
+.profile-tool-name {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+
 
 .add-tool-button {
   border-radius: 0.5rem;
@@ -420,10 +481,14 @@ nav a:hover {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .faq-section {
   margin-top: 30px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .faq-grid {
@@ -434,11 +499,13 @@ nav a:hover {
 }
 
 .faq-item {
-  background-color: #406e4a;
+  background-color: #1e9137;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   transition: box-shadow 0.3s ease;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .faq-item:hover {
@@ -447,6 +514,8 @@ nav a:hover {
 
 .faq-item h3 {
   font-size: 18px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
   margin-bottom: 10px;
   color: #000000;
 }
@@ -468,11 +537,14 @@ nav a:hover {
 /* ╚═══════════════════╝ */
 
 .help-header {
-  background-color: #406e4a;
+  background-color: #1e9137;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   transition: box-shadow 0.3s ease;
+  font-size: 24px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .about-toolr {
@@ -480,29 +552,39 @@ nav a:hover {
   margin: 0 auto;
   padding: 20px;
   font-size: 16px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .toolr-description {
-  background-color: #406e4a;
+  background-color: #1e9137;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 25px;
   transition: box-shadow 0.3s ease;
+  font-size: 18px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .toolr-card {
-  font-size: 18px;
+  font-size: 16px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
   margin-bottom: 10px;
   color: #000000;
   line-height: 1.5;
 }
 
 .join-toolr {
-  background-color: #406e4a;
+  background-color: #1e9137;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   transition: box-shadow 0.3s ease;
+  font-size: 18px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .join-toolr:hover,
@@ -593,12 +675,12 @@ nav a:hover {
 }
 
 .hammer-gif {
-  width: 170px
+  width: 170px;
 }
 
 .hammer-gif-2 {
   width: 170px;
-  transform: rotateY(180deg)
+  transform: rotateY(180deg);
 }
 
 .header-text {

@@ -43,6 +43,7 @@ export interface UsersData extends Users {
 export interface Transactions {
   id: number
   tool_id: number
+  tool_name: string
   borrower_id: number
   lender_id: number
   start_date: Date

@@ -113,10 +113,12 @@ export default function GetAllProducts() {
                       className="tool-container"
                     />
                     <Link to={`/tools/${tool.id}`}>
-                      <h3>{tool.tool_name}</h3>
+                      <h3 className="tool-link-container">{tool.tool_name}</h3>
                     </Link>
-                    <p>{tool.tool_owner}</p>
-                    <p>Available:{tool.availability ? ' Yes' : ' No'}</p>
+                    <p className="owner-container">Owner: {tool.tool_owner}</p>
+                    <p className="availability-container">
+                      Available:{tool.availability ? ' Yes' : ' No'}
+                    </p>
                   </li>
                 ))}
               </ul>
