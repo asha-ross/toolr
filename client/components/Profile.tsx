@@ -11,17 +11,20 @@ import {
   useEditTool,
   useDeleteTool,
   useRentals,
+  useDeleteRental
 } from '../hooks/useTools'
 import { Tools } from '../../models/tools'
 import { Link } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useUser } from './SignedInUser'
 
+
 const Profile = () => {
   const { data: tools, isLoading, isError, refetch } = useTools()
   const addToolMutation = useAddTool()
   const editToolMutation = useEditTool()
   const deleteToolMutation = useDeleteTool()
+  const deleteRentalMutation = useDeleteRental();
 
   const { user } = useAuth0()
   const SignedInUser = useUser()
@@ -69,6 +72,7 @@ const Profile = () => {
   })
   const [editMode, setEditMode] = useState(false)
   const [currentToolId, setCurrentToolId] = useState<number | null>(null)
+  const [rentStatus, setRentStatus] = useState<boolean>(false);
 
   // Handle form input change
   const handleChange = (
@@ -160,6 +164,15 @@ const Profile = () => {
     })
   }
 
+  const handleToolRentChange = (toolId: number, newStatus: boolean) => {
+    setRentStatus(newStatus)
+
+    editToolMutation.mutate(
+      { id: toolId, updates: { availability: newStatus } },
+    );
+  };
+
+
   const handleSetEditMode = (tool: Tools) => {
     setFormData(tool)
     setCurrentToolId(tool.id)
@@ -189,6 +202,17 @@ const Profile = () => {
 
   if (isLoading || rentalIsLoading) return <p>Loading tools...</p>
   if (isError || rentalsError) return <p>Error loading tools</p>
+
+  const handleReturnTool = (id: number) => {
+    deleteRentalMutation.mutate(id);
+  };
+
+  const handleReturnAndRentChange = (rentalId: number, toolId: number) => {
+    const newStatus = !rentStatus;
+    handleReturnTool(rentalId); // Return the tool
+    handleToolRentChange(toolId, newStatus); // Update the rent status
+  };
+
 
   return (
     <div className="profile-container">
@@ -289,13 +313,13 @@ const Profile = () => {
         )}
       </dialog>
 
-      <h2>Your Tools</h2>
+      <h2 className='profile-sub-heading'>Your Tools</h2>
       <ul>
         {userTools?.map((tool) => (
           <li key={tool.id}>
-            <h3>{tool.tool_name}</h3>
-            <p>
-              Availability: {tool.availability ? 'Available' : 'Not Available'}
+            <h3 className='profile-tool-name'>{tool.tool_name}</h3>
+            <p className='profile-tool-name'>
+              Available: {tool.availability ? 'Yes' : 'No'}
             </p>
             {tool.availability && (
               <button onClick={() => handleRentTool(tool)}>Rent</button>
@@ -307,16 +331,19 @@ const Profile = () => {
       </ul>
 
       {/*Rentals List*/}
-      <h2>Your Rentals</h2>
+      <h2 className='profile-sub-heading'>Your Rentals</h2>
       {rentals && rentals.length > 0 ? (
         <ul>
           {rentals.map((rental) => (
-            <li key={rental.id}>
-              Tool: {rental.tool_id}, Rental Fee: ${rental.rental_fee}, Start
-              Date: {new Date(rental.start_date).toLocaleDateString()}, End
-              date: {new Date(rental.end_date).toLocaleDateString()}, Status:{' '}
-              {rental.status}
-              {/* <button onClick={() => handleReturnTool(rental.transaction_id)}>Return Tool</button> */}
+            <li key={rental.id} className='profile-tool-header'>
+              <h3>Tool: {rental.tool_name}</h3> 
+              <p>Rental Fee: ${rental.rental_fee}</p>
+              <p>Start Date: {new Date(rental.start_date).toLocaleDateString()}</p> 
+              <p>End Date: {new Date(rental.end_date).toLocaleDateString()}</p> 
+              <p>Status:{' '}{rental.status}</p>
+              <button onClick={() => handleReturnAndRentChange(rental?.id, rental.tool_id)}>
+        Return Tool
+      </button>
             </li>
           ))}
         </ul>

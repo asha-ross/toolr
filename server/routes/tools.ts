@@ -98,7 +98,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-//TODO: PUT /api/v1/tools/:id
+// TODO: PUT /api/v1/tools/:id
 //Update an existing tool
 router.patch('/tools/:id', async (req, res) => {
   const { id } = req.params
@@ -226,7 +226,7 @@ router.get('/transactions/:userId', async (req, res) => {
 router.post('/transactions', async (req, res) => {
   try {
     console.log('Received rental data on server:', req.body)
-    const { tool_id, borrower_id, rental_fee, start_date, end_date } = req.body
+    const { tool_id, tool_name, borrower_id, rental_fee, start_date, end_date, lender_id } = req.body
 
     console.log('Rental fee received on server:', rental_fee)
     console.log('Type of rental fee: ', typeof rental_fee)
@@ -245,11 +245,12 @@ router.post('/transactions', async (req, res) => {
 
     const newRental = await db_rentals.addRentalTransaction({
       tool_id,
+      tool_name,
       borrower_id,
       rental_fee: parsedRentalFee,
       start_date,
       end_date,
-      lender_id: 0,
+      lender_id,
       status: 'active',
       created_at: new Date(),
     })
@@ -257,6 +258,21 @@ router.post('/transactions', async (req, res) => {
   } catch (error) {
     console.error('Error adding rental transaction:', error)
     res.status(500).json({ message: 'Error adding rental' })
+  }
+})
+
+//Delete a rental transaction
+
+router.delete('/transactions/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    await db_rentals.deleteTransaction(Number(id))
+    res.status(StatusCodes.NO_CONTENT).send()
+  } catch (error) {
+    console.error(`Error deleting tool with ID ${id}:`, error)
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error deleting tool' })
   }
 })
 

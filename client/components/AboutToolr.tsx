@@ -1,13 +1,13 @@
 const AboutToolr = () => {
   return (
-    <div>
+    <div className="help-container">
       <h1 className="help-header">About Toolr</h1>
       <p className="about-toolr">
         Welcome to Toolr! Toolr is a user-friendly online platform that connects
         people with the tools they need, right in their neighborhood. Whether
-        you&aposre looking to borrow a power drill for a home improvement
-        project or rent out your unused tools for extra income, Toolr makes it
-        easy and convenient.
+        you are looking to borrow a power drill for a home improvement project
+        or rent out your unused tools for extra income, Toolr makes it easy and
+        convenient.
       </p>
       <p className="toolr-description">Why Choose Toolr?</p>
       <div className="toolr-card">

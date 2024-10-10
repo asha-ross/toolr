@@ -98,7 +98,7 @@ export async function editTool(
   updates: Partial<Tools>,
 ): Promise<Tools> {
   return request
-    .put(`${rootUrl + 'tools'}/${id}`)
+    .patch(`${rootUrl}/tools/${id}`)
     .send(updates)
     .then((res) => {
       return res.body
@@ -196,4 +196,8 @@ export async function addRentalTransaction(
     console.error('Error adding rental transaction:', error)
     throw error
   }
+}
+
+export async function deleteTransaction(id: number) {
+  return request.delete(`${rootUrl}/transactions/${id}`)
 }

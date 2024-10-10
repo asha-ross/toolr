@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import { addUser, getTools } from '../apis/tools'
 import { useQuery } from '@tanstack/react-query'
@@ -10,7 +10,6 @@ export default function Home() {
   const [searchResults, setSearchResults] = useState([])
   const [isLoading] = useState(false)
   const [error] = useState<string | null>(null)
-  const navigate = useNavigate()
 
   const { user, getAccessTokenSilently } = useAuth0()
 
@@ -50,18 +49,6 @@ export default function Home() {
     setSearchResults(searchFilter)
   }
 
-  // const handleResultClick = (id: number) => {
-  //   // Navigate to the specific tool's page using its id
-  //   navigate(`/api/v1/tools/${id}`)
-  // }
-
-  // const handleKeyPress = (e: any, id: number) => {
-  //   if (e.key === 'Enter' || e.key === ' ') {
-  //     e.preventDefault()
-  //     handleResultClick(id)
-  //   }
-  // }
-
   return (
     <div className="home">
       <form onSubmit={handleSearch} className="search-form">
@@ -74,16 +61,9 @@ export default function Home() {
         />
         {searchTerm && (
           <ul className="search-results">
-            {searchResults.map((item) => (
+            {searchResults.map((item: Tools) => (
               <li key={item.id}>
-                <Link
-                  to={`/tools/${item.id}`}
-                  className="search-result-link"
-                  // tabIndex={0}
-                  // onClick={() => handleResultClick(item.id)}
-                  // onKeyDown={(e) => handleKeyPress(e, item.id)}
-                  // style={{ cursor: 'pointer' }}
-                >
+                <Link to={`/tools/${item.id}`} className="search-result-link">
                   {item.tool_name}
                 </Link>
               </li>
@@ -91,9 +71,6 @@ export default function Home() {
           </ul>
         )}
       </form>
-      <button type="submit" className="search-button" disabled={isLoading}>
-        {isLoading ? 'Searching' : 'Search'}
-      </button>
       {error && <p className="error-message">{error}</p>}
 
       <Link to="/tool-finder" className="helper-link">
