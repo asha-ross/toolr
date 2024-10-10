@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useUser } from './SignedInUser'
+import { useNavigate } from 'react-router-dom'
 
 export default function GetSingleProduct() {
   const { user } = useAuth0()
@@ -16,7 +17,10 @@ export default function GetSingleProduct() {
   const id = useParams().id
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
+  const [showSafetyModal, setShowSafetyModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const navigate = useNavigate()
+  const hasTakenQuiz = sessionStorage.getItem('quiztaken') === 'true'
 
   const {
     data: tools,
@@ -60,24 +64,32 @@ export default function GetSingleProduct() {
       queryClient.invalidateQueries({ queryKey: ['tool', id] })
       queryClient.invalidateQueries({ queryKey: ['transactions'] })
       setIsOpen(false)
+      setShowSafetyModal(false)
       setErrorMessage(null)
+      navigate('/rental-confirmation')
     },
     onError: (error: Error) => {
       console.error('Error renting this tool:', error)
       setErrorMessage(error.message)
       setIsOpen(false)
+      setShowSafetyModal(false)
     },
   })
 
   // Open modal when "Rent out?" is clicked
   const handleRentChange = () => {
     setIsOpen(true)
+    setShowSafetyModal(true)
     setErrorMessage(null)
   }
 
   // Close modal after confirming rent
-  const confirmRent = () => {
-    rentMutation.mutate()
+  const confirmRent = async () => {
+    if (!hasTakenQuiz) {
+      navigate('/safety-quiz?toolId=' + id)
+    } else {
+      rentMutation.mutate()
+    }
   }
 
   // Close modal without making any changes
@@ -132,6 +144,7 @@ export default function GetSingleProduct() {
               <p>Are you sure you want to rent this tool?</p>
               <p>Rental Fee: ${tools?.price}</p>
               <p>Rental Period: 7 days</p>
+
               {errorMessage && <p className="error-message">{errorMessage}</p>}
             </div>
             <div className="modal-footer">
