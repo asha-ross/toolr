@@ -45,7 +45,7 @@ export default function GetAllProducts() {
     <>
       <div className="products-container">
         <div className="dropdown">
-          <button className="dropbtn">Filter by Catergory</button>
+          <button className="dropbtn">Filter by Category</button>
           <div className="dropdown-content">
             <button className="categoryButton" onClick={displayAllTools}>
               All
@@ -58,13 +58,13 @@ export default function GetAllProducts() {
             </button>
             <button
               className="categoryButton"
-              onClick={() => filterTools('Small Power Tools')}
+              onClick={() => filterTools('Yard & Garden')}
             >
               Yard & Garden
             </button>
             <button
               className="categoryButton"
-              onClick={() => filterTools('Small Power Tools')}
+              onClick={() => filterTools('Outdoor Tools')}
             >
               Outdoor Tools
             </button>
@@ -76,13 +76,7 @@ export default function GetAllProducts() {
             </button>
             <button
               className="categoryButton"
-              onClick={() => filterTools('Carpentry Tools')}
-            >
-              Cleaning Tools
-            </button>
-            <button
-              className="categoryButton"
-              onClick={() => filterTools('Carpentry Tools')}
+              onClick={() => filterTools('Cleaning Tools')}
             >
               Cleaning Tools
             </button>
